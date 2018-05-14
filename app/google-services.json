@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "174783264070",
+    "firebase_url": "https://logdme-fec8e.firebaseio.com",
+    "project_id": "logdme-fec8e",
+    "storage_bucket": "logdme-fec8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174783264070:android:fa0c517b37202535",
+        "android_client_info": {
+          "package_name": "com.example.elvilla.logdme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174783264070-ltrc95a1d1bta76g0t4ckassip9nqjqd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.elvilla.logdme",
+            "certificate_hash": "bda964d839dbf01c8cc5f6da67afbeb25b2cf56a"
+          }
+        },
+        {
+          "client_id": "174783264070-jtahq2ieoegrg03dg128q9r4kru2rsqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk4HWZTsLMFeCO_07pSKU-PJDZJB9Wqu4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174783264070-jtahq2ieoegrg03dg128q9r4kru2rsqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
