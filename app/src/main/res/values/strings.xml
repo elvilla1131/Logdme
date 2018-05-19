@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Logdme</string>
-    <string name="email">Ingrese Email</string>
+    <string name="app_name">Lodgme</string>
+    <string name="email">Correo Electrónico</string>
     <string name="password">Contraseña</string>
-    <string name="registrar">Registrar usuario</string>
+    <string name="registrar">Registrarme</string>
     <string name="title_activity_bienvenido">Bienvenido</string>
-    <string name="login">Login</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="bienvenida_principal">Bienvenido a Lodgme.</string>
 </resources>
