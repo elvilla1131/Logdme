@@ -18,7 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Bienvenido"></activity>
+        <activity android:name=".Bienvenido" />
+        <activity android:name=".Principal">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Arrendador" />
+        <activity android:name=".Alquilador" />
+        <activity android:name=".Registrar" />
+        <activity android:name=".RegistrarAlquilador"></activity>
     </application>
 
 </manifest>

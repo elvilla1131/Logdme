@@ -6,4 +6,10 @@
     <string name="title_activity_bienvenido">Bienvenido</string>
     <string name="login">Iniciar Sesión</string>
     <string name="bienvenida_principal">Bienvenido a Lodgme.</string>
+    <string name="arrendador">Arrendador</string>
+    <string name="arrendatario">Arrendatario</string>
+    <string name="bienvenido">Bienvenido</string>
+    <string name="usuario">Usuario</string>
+    <string name="alquilador">Alquilador</string>
+
 </resources>
