@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             int pos = email.indexOf("@");
                             String user = email.substring(0, pos);
                             Toast.makeText(MainActivity.this, "Bienvenido: " + TextEmail.getText(), Toast.LENGTH_LONG).show();
-                            Intent intencion = new Intent(getApplication(), Bienvenido.class);
-                            intencion.putExtra(Bienvenido.user, user);
+                            Intent intencion = new Intent(getApplication(), PrincipalAlquilador.class);
+                            //intencion.putExtra(Bienvenido.user, user);
                             startActivity(intencion);
 
 

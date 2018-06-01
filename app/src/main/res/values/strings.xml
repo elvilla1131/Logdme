@@ -2,14 +2,65 @@
     <string name="app_name">Lodgme</string>
     <string name="email">Correo Electrónico</string>
     <string name="password">Contraseña</string>
-    <string name="registrar">Registrarme</string>
+    <string name="registrar">Crear nueva cuenta</string>
     <string name="title_activity_bienvenido">Bienvenido</string>
     <string name="login">Iniciar Sesión</string>
     <string name="bienvenida_principal">Bienvenido a Lodgme.</string>
-    <string name="arrendador">Arrendador</string>
-    <string name="arrendatario">Arrendatario</string>
+    <string name="arrendador">Soy Arrendador</string>
+    <string name="arrendatario">Soy Arrendatario</string>
     <string name="bienvenido">Bienvenido</string>
     <string name="usuario">Usuario</string>
     <string name="alquilador">Alquilador</string>
 
+    <string name="pautar_pension">¿Qué caracteristicas tendrá tu pensión?</string>
+    <string name="nombre_pension">Confortable pension...</string>
+    <string name="label_nombre_pension">Asignale un nombre a tu pensión</string>
+    <string name="lbl_descripcion_pension">Describe un poco tu pension</string>
+    <string name="descripcion_pension">Terraza fresca...</string>
+    <string name="lbl_numero_huesped_pension">Número de huespedes</string>
+    <string name="title_activity_principal__alquilador">Principal_Alquilador</string>
+    <string name="pensiones">Pensiones</string>
+    <string name="perfil">Editar Perfil</string>
+    <string name="pensiones_nav">PENSIONES</string>
+    <string name="perfil_nav">PERFIL</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="precio_pension">Precio Mensual (COP)</string>
+    <string name="barrio_pension">Ubicación (Barrio)</string>
+    <string name="politicas_pension">Políticas</string>
+    <string name="imagen_principal_pension">Imagen principal</string>
+    <string name="permiso_denegado">Permiso Denegado</string>
+    <string name="permiso_concedido">Ya tienes permiso</string>
+    <string name="restriccion_pension">Restricciones</string>
+    <string name="guardar_datos">Guardar Datos</string>
+    <string name="guardar_pension_correcto">Pension guardada</string>
+    <string name="guardar_imagen_correcto">Imagen guardada</string>
+
+
+    <string name="error_campo_vacio">Debe llenar este campo</string>
+    <string name="error_imagen_vacia">Debe subir una imagen de su pension</string>
+    <string name="error_combo_vacio">Debe seleccionar una opción</string>
+    <string name="fecha_publicada">Publicada desde :</string>
+    <string name="por">Por :</string>
+    <string name="ingresar_nombre">Nombre</string>
+    <string name="actualizar_perfil">Actualizar Perfil</string>
+    <string name="perfil_actualizado">Su perfil ha sido actualizado</string>
+    <string name="nueva_pension">Nueva Pensión</string>
+    <string name="mis_pensiones">Mis Pensiones</string>
+    <string name="configurar_perfil">Configurar Perfil</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
+    <string name="ingresar_apellido">Apellido</string>
+    <string name="ingresar_celular">Número Celular</string>
+    <string name="pagos">Forma de Pagos</string>
+    <string name="servicio_lavadora">Lavadora</string>
+    <string name="none">------</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="correo">Correo electrónico</string>
+    <string-array name="opciones_s_lavadora">
+        <item>@string/none</item>
+        <item>@string/si</item>
+        <item>@string/no</item>
+    </string-array>
 </resources>

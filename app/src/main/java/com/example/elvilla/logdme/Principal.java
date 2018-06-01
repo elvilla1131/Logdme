@@ -31,7 +31,7 @@ public class Principal extends AppCompatActivity {
         btnArrendatario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent btnArrendatario = new Intent(Principal.this, Arrendador.class);
+                Intent btnArrendatario = new Intent(Principal.this, Alquilador.class);
                 startActivity(btnArrendatario);
             }
         });

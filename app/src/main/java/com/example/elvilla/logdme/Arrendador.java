@@ -89,7 +89,7 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
                             String user = email.substring(0, pos);
                             Toast.makeText(Arrendador.this, "Bienvenido: " + TextEmail.getText(), Toast.LENGTH_LONG).show();
                             Intent intencion = new Intent(getApplication(), PrincipalArrendador.class);//cambiar a PrincipalArrendador
-                            intencion.putExtra(Bienvenido.user, user);
+                            //intencion.putExtra(Bienvenido.user, user);
                             startActivity(intencion);
 
 

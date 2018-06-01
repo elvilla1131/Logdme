@@ -30,7 +30,7 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_arrendador);
+        setContentView(R.layout.activity_alquilador);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -89,7 +89,7 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
                             String user = email.substring(0, pos);
                             Toast.makeText(Alquilador.this, "Bienvenido: " + TextEmail.getText(), Toast.LENGTH_LONG).show();
                             Intent intencion = new Intent(getApplication(), PrincipalAlquilador.class);//cambiar a PrincipalAlquilador
-                            intencion.putExtra(Bienvenido.user, user);
+                            //intencion.putExtra(Bienvenido.user, user);
                             startActivity(intencion);
 
 
