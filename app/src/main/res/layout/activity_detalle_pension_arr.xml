@@ -38,7 +38,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins"
                 android:text="Titulo Pension"
-                android:textColor="212121"
+                android:textColor="#212121"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
