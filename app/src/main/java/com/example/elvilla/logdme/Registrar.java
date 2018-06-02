@@ -31,7 +31,7 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
     private Button btnRegistrar;
     private ProgressDialog progressDialog;
 
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth mAuth;
     private FirebaseFirestore firebaseFirestore;
 
 
@@ -40,7 +40,7 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
-        firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
 
@@ -98,7 +98,7 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
         progressDialog.show();
 
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -115,13 +115,15 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
                             userMap.put("apellido", "");
                             userMap.put("telefono", "");
 
-                            firebaseFirestore.collection("Usuarios").document(firebaseAuth.getCurrentUser().getUid()).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            firebaseFirestore.collection("Usuarios").document(mAuth.getCurrentUser().getUid()).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     if(task.isSuccessful()){
 
                                         Toast.makeText(Registrar.this, getResources().getString(R.string.registro_exitoso) + " " + TextEmail.getText(), Toast.LENGTH_LONG).show();
+
+                                        mAuth.signOut();
 
                                     } else {
 
@@ -149,6 +151,7 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
 
 
                         }
+
                         progressDialog.dismiss();
                     }
                 });

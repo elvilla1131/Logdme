@@ -278,7 +278,6 @@ public class PerfilAlquilador extends AppCompatActivity {
         userMap.put("imagen", download_uri.toString());
         userMap.put("apellido", user_lastName);
         userMap.put("telefono", user_phone);
-        userMap.put("correo", user_email);
 
         firebaseFirestore.collection("Usuarios").document(user_id).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -308,13 +307,12 @@ public class PerfilAlquilador extends AppCompatActivity {
 
     private void storeFirestoreWithouImage(String user_name, String user_lastName, String user_phone){
 
-        Map<String, String> userMap = new HashMap<>();
+        Map<String, Object> userMap = new HashMap<>();
         userMap.put("nombre", user_name);
         userMap.put("apellido", user_lastName);
         userMap.put("telefono", user_phone);
-        userMap.put("correo", user_email);
 
-        firebaseFirestore.collection("Usuarios").document(user_id).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        firebaseFirestore.collection("Usuarios").document(user_id).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
@@ -385,6 +383,11 @@ public class PerfilAlquilador extends AppCompatActivity {
             }
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        setupBtn.performClick();
     }
 }
 

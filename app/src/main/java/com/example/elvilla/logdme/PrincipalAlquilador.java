@@ -179,14 +179,16 @@ public class PrincipalAlquilador extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        logOut();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu_items,menu);
+        getMenuInflater().inflate(R.menu.menu_items_alqu,menu);
         return true;
     }
 

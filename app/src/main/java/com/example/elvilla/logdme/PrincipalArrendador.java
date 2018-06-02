@@ -165,15 +165,15 @@ public class PrincipalArrendador extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        logOut();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
 
     }
 
-    /*
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu_items,menu);
+        getMenuInflater().inflate(R.menu.menu_items_arr,menu);
         return true;
     }
 
@@ -184,17 +184,20 @@ public class PrincipalArrendador extends AppCompatActivity {
 
             case R.id.btnConfigurar:
 
-               /* Intent i = new Intent(PrincipalArrendador.this, PerfilArrendador.class);
-                startActivity(i);
+                /*Intent i = new Intent(PrincipalArrendador.this, PerfilAlquilador.class);
+                startActivity(i);*/
 
                 return true;
 
             case R.id.btnLogOut:
+
+                logOut();
+
                 return true;
 
             default:
                 return false;
         }
 
-    }*/
+    }
 }

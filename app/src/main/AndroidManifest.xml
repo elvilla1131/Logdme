@@ -47,7 +47,8 @@
 
         <activity android:name=".PerfilAlquilador" />
         <activity android:name=".PrincipalArrendador" />
-        <activity android:name=".DetallePensionAlqu"></activity>
+        <activity android:name=".DetallePensionAlqu" />
+        <activity android:name=".DetallePensionArr"></activity>
     </application>
 
 </manifest>

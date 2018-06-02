@@ -135,6 +135,7 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
         super.onStart();
 
 
+        /*
         FirebaseUser usuario_actual = mAuth.getCurrentUser();
 
         Log.d("MyActivity", "Usuario actual : " + usuario_actual);
@@ -165,7 +166,7 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
                     }
                 }
             });
-        }
+        }*/
     }
 
     @Override

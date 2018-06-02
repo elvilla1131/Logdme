@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetallePensionAlqu">
+    tools:context=".DetallePensionArr">
 
     <ImageView
         android:id="@+id/imgPensionDetalle"
@@ -138,4 +138,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/icUbicacion" />
+
 </android.support.constraint.ConstraintLayout>

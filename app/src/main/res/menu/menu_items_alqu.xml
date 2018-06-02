@@ -6,9 +6,6 @@
         android:id="@+id/btnConfigurar"
         android:title="@string/configurar_perfil" />
     <item
-        android:id="@+id/btnPagos"
-        android:title="@string/pagos" />
-    <item
         android:id="@+id/btnLogOut"
         android:title="@string/cerrar_sesion" />
 </menu>

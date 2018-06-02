@@ -137,6 +137,7 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
     protected void onStart() {
         super.onStart();
 
+        /*
         FirebaseUser usuario_actual = firebaseAuth.getCurrentUser();
 
         Log.d("MyActivity", "Usuario actual : " + usuario_actual);
@@ -165,7 +166,7 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
                     }
                 }
             });
-        }
+        }*/
     }
 
     @Override
