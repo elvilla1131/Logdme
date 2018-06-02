@@ -172,6 +172,7 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
     public void onBackPressed() {
         Intent i = new Intent(Alquilador.this, Principal.class);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 

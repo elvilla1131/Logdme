@@ -172,6 +172,7 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
     public void onBackPressed() {
         Intent i = new Intent(Arrendador.this, Principal.class);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 
