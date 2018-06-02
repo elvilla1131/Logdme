@@ -1,10 +1,12 @@
 package com.example.elvilla.logdme;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,17 +46,7 @@ public class PrincipalAlquilador extends AppCompatActivity {
     private FloatingActionButton btnAgregarPension;
 
     private AdaptadorPension adaptadorPension;
-/*
-    private BottomNavigationView mainNavAlquilador;
 
-    private MisPensionesFragment misPensionesFragment;
-    private PerfilFragment perfilFragment;
-
-    private BottomNavigationView mNavPrincipal;
-    private FrameLayout mFramePrincipal;
-
-    private MisPensionesFragment fragmentoMisPensiones;
-    private PerfilFragment fragmentoPerfil;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +58,6 @@ public class PrincipalAlquilador extends AppCompatActivity {
 
         mainAlquiladorToolbar = findViewById(R.id.principalAlquiladorToolbar);
         setSupportActionBar(mainAlquiladorToolbar);
-
-//        getSupportActionBar().setTitle("cual");
 
         listaPensiones = new ArrayList<>();
         mMiListaPensiones = findViewById(R.id.lst_mis_pensiones);
@@ -115,36 +105,6 @@ public class PrincipalAlquilador extends AppCompatActivity {
                 }
             });
 
-
-           /* mainNavAlquilador = findViewById(R.id.mainNavAlquilador);
-
-            //Fragments
-            misPensionesFragment = new MisPensionesFragment();
-            perfilFragment = new PerfilFragment();
-
-
-            replaceFragment(misPensionesFragment);
-            mainNavAlquilador.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-
-                    switch (item.getItemId()) {
-
-                        case R.id.nav_misPensiones:
-                            replaceFragment(misPensionesFragment);
-                            return true;
-
-                        case R.id.nav_Perfil:
-                            replaceFragment(perfilFragment);
-                            return true;
-
-                        default:
-                            return false;
-                    }
-                }
-            });*/
-
         }
     }
 
@@ -152,9 +112,12 @@ public class PrincipalAlquilador extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser usuarioActual = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser usuarioActual = mAuth.getCurrentUser();
         if(usuarioActual == null){
-            //Enviar al login
+
+           Intent i = new Intent(PrincipalAlquilador.this, Alquilador.class);
+           startActivity(i);
+           finish();
         }else{
 
             id_usuario_actual = mAuth.getCurrentUser().getUid();
@@ -165,7 +128,7 @@ public class PrincipalAlquilador extends AppCompatActivity {
 
                     if (task.isSuccessful()){
 
-                        if (!task.getResult().exists()){
+                        if (task.getResult().getString("nombre").isEmpty()){
                             Intent i = new Intent(PrincipalAlquilador.this, PerfilAlquilador.class);
                             startActivity(i);
                             finish();
@@ -182,18 +145,43 @@ public class PrincipalAlquilador extends AppCompatActivity {
         }
     }
 
-   /* private void initializeFragment(){
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    private void logOut() {
 
-        fragmentTransaction.add(R.id.contenedor_alquilador, misPensionesFragment);
-        fragmentTransaction.add(R.id.contenedor_alquilador, perfilFragment);
+        String positivo, negativo;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.cerrar_sesion_titulo));
+        builder.setMessage(getResources().getString(R.string.cerrar_sesion_mensaje));
+        positivo = getResources().getString(R.string.positivo);
+        negativo = getResources().getString(R.string.negativo);
 
-        fragmentTransaction.hide(perfilFragment);
+        builder.setPositiveButton(positivo, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mAuth.signOut();
 
-        fragmentTransaction.commit();
+                Intent i = new Intent(PrincipalAlquilador.this, Alquilador.class);
+                startActivity(i);
+            }
+        });
 
-    }*/
+        builder.setNegativeButton(negativo, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        logOut();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -215,6 +203,9 @@ public class PrincipalAlquilador extends AppCompatActivity {
                 return true;
 
             case R.id.btnLogOut:
+
+                logOut();
+
                 return true;
 
             default:
@@ -222,10 +213,6 @@ public class PrincipalAlquilador extends AppCompatActivity {
         }
 
     }
-/*
-    private void replaceFragment(android.support.v4.app.Fragment fragment){
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.contenedor_alquilador,fragment);
-        fragmentTransaction.commit();
-    }*/
+
+
 }

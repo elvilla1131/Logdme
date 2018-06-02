@@ -95,31 +95,46 @@ public class PerfilAlquilador extends AppCompatActivity {
         setupProgress.setVisibility(View.VISIBLE);
         setupBtn.setEnabled(false);
 
+        //Listar informacion de la Base de datos
         firebaseFirestore.collection("Usuarios").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
                 if(task.isSuccessful()){
+
                     DocumentSnapshot usuarioActual = task.getResult();
-                    if(usuarioActual.exists()){
+
+                    //Si el usuario existe y el nombre no está vacio ( Vuelve obligatorio registrar almenos el nombre)
+                    if(usuarioActual.exists() && !task.getResult().getString("nombre").isEmpty()){
 
                         String name = usuarioActual.getString("nombre");
-                        String image = usuarioActual.getString("imagen");
                         String lastname = usuarioActual.getString("apellido");
                         String telephone = usuarioActual.getString("telefono");
-
-                        mainImageURI = Uri.parse(image);
+                        String email = usuarioActual.getString("correo");
 
                         setupName.setText(name);
-                        setupEmail.setText(user_email);
                         setupLastName.setText(lastname);
                         setupPhone.setText(telephone);
-
-                        RequestOptions placeholderRequest = new RequestOptions();
-                        placeholderRequest.placeholder(R.drawable.default_image);
-
-                        Glide.with(PerfilAlquilador.this).setDefaultRequestOptions(placeholderRequest).load(image).into(setupImage);
+                        setupEmail.setText(email);
 
 
+                        String image = usuarioActual.getString("imagen");
+
+                        if(!TextUtils.isEmpty(image)){
+
+                            mainImageURI = Uri.parse(image);
+
+                            RequestOptions placeholderRequest = new RequestOptions();
+                            placeholderRequest.placeholder(R.drawable.default_profile);
+
+                            Glide.with(PerfilAlquilador.this).setDefaultRequestOptions(placeholderRequest).load(image).into(setupImage);
+
+                        }
+
+                    // Sino solo muestra el correo
+                    }else{
+                        String email = usuarioActual.getString("correo");
+                        setupEmail.setText(email);
                     }
 
                 } else {
@@ -134,7 +149,7 @@ public class PerfilAlquilador extends AppCompatActivity {
             }
         });
 
-
+        //Evento para guardar o actualizar los datos del usuario
         setupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,10 +158,12 @@ public class PerfilAlquilador extends AppCompatActivity {
                             apellido = setupLastName.getText().toString(),
                             telefono = setupPhone.getText().toString();
 
+                //Valida si el campo del nombre esta vacio y si no se ha seleccionado imagen
                 if (validarNombre() && mainImageURI != null) {
 
                     setupProgress.setVisibility(View.VISIBLE);
 
+                    //Valida si la imagen ha sido modificada
                     if (isChanged) {
 
                         user_id = firebaseAuth.getCurrentUser().getUid();
@@ -168,8 +185,10 @@ public class PerfilAlquilador extends AppCompatActivity {
                         compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         byte[] thumbData = baos.toByteArray();
 
+                        //Guarda imagen en el Storage
                         UploadTask image_path = storageReference.child("imagenes_perfil").child(user_id + ".jpg").putBytes(thumbData);
 
+                        //Guarda todos los datos incluyendo la imagen modificada
                         image_path.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -188,15 +207,18 @@ public class PerfilAlquilador extends AppCompatActivity {
                             }
                         });
 
+                    //Guarda todos los datos sin modificaciones en la imagen (Deja la imagen vieja)
                     } else {
 
                         storeFirestore(null, user_name, apellido, telefono);
 
                     }
 
-                } else if(!TextUtils.isEmpty(user_name)){
+                //Guarda todos los datos sin imagen
+                } else if(validarNombre()){
 
-                    storeFirestore(null, user_name, apellido, telefono);
+                    setupProgress.setVisibility(View.VISIBLE);
+                    storeFirestoreWithouImage(user_name, apellido, telefono);
                 }
 
 
@@ -205,6 +227,7 @@ public class PerfilAlquilador extends AppCompatActivity {
 
         });
 
+        // Evento para escoger imagen del dispositivo
         setupImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,6 +241,7 @@ public class PerfilAlquilador extends AppCompatActivity {
 
                     } else {
 
+                        //Permite escoger y recortar la imagen
                         BringImagePicker();
 
                     }
@@ -249,9 +273,43 @@ public class PerfilAlquilador extends AppCompatActivity {
 
         }
 
-        Map<String, String> userMap = new HashMap<>();
+        Map<String, Object> userMap = new HashMap<>();
         userMap.put("nombre", user_name);
         userMap.put("imagen", download_uri.toString());
+        userMap.put("apellido", user_lastName);
+        userMap.put("telefono", user_phone);
+        userMap.put("correo", user_email);
+
+        firebaseFirestore.collection("Usuarios").document(user_id).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if(task.isSuccessful()){
+
+                    Toast.makeText(PerfilAlquilador.this, getResources().getString(R.string.perfil_actualizado), Toast.LENGTH_LONG).show();
+                    Intent mainIntent = new Intent(PerfilAlquilador.this, PrincipalAlquilador.class);
+                    startActivity(mainIntent);
+                    finish();
+
+                } else {
+
+                    String error = task.getException().getMessage();
+                    Toast.makeText(PerfilAlquilador.this, "Firestore Error : " + error, Toast.LENGTH_LONG).show();
+
+                }
+
+                setupProgress.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
+
+    }
+
+    private void storeFirestoreWithouImage(String user_name, String user_lastName, String user_phone){
+
+        Map<String, String> userMap = new HashMap<>();
+        userMap.put("nombre", user_name);
         userMap.put("apellido", user_lastName);
         userMap.put("telefono", user_phone);
         userMap.put("correo", user_email);
@@ -270,7 +328,7 @@ public class PerfilAlquilador extends AppCompatActivity {
                 } else {
 
                     String error = task.getException().getMessage();
-                    Toast.makeText(PerfilAlquilador.this, "(Firestore Error) : " + error, Toast.LENGTH_LONG).show();
+                    Toast.makeText(PerfilAlquilador.this, "Firestore Error : " + error, Toast.LENGTH_LONG).show();
 
                 }
 
@@ -278,8 +336,6 @@ public class PerfilAlquilador extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public Boolean validarNombre(){
@@ -308,6 +364,7 @@ public class PerfilAlquilador extends AppCompatActivity {
 
     }
 
+    //Evento que se despliega al escoger una imagen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -1,10 +1,12 @@
 package com.example.elvilla.logdme;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,16 +17,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Registrar extends AppCompatActivity implements View.OnClickListener {
 
 
-    private EditText TextPassword;
     private EditText TextEmail;
+    private EditText TextPassword;
+    private EditText TextConfirmPass;
     private Button btnRegistrar;
     private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
 
 
 
@@ -33,8 +41,12 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+
         TextEmail = findViewById(R.id.TxtEmail);
         TextPassword = findViewById(R.id.TxtPassword);
+        TextConfirmPass = findViewById(R.id.TxtConfirmPass);
 
         btnRegistrar = findViewById(R.id.botonRegistrar);
 
@@ -47,22 +59,42 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
     private void registrarUsuario() {
 
 
-        String email = TextEmail.getText().toString().trim();
+      final String email = TextEmail.getText().toString().trim();
         String password = TextPassword.getText().toString().trim();
+        String confirmPass = TextConfirmPass.getText().toString().trim();
 
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Se debe ingresar un email", Toast.LENGTH_LONG).show();
+
+            TextEmail.requestFocus();
+            TextEmail.setError(getResources().getString(R.string.error_campo_vacio));
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Falta ingresar la contraseña", Toast.LENGTH_LONG).show();
+
+            TextPassword.requestFocus();
+            TextPassword.setError(getResources().getString(R.string.error_campo_vacio));
+            return;
+        }
+
+        if (password.length() < 6) {
+
+            TextPassword.requestFocus();
+            TextPassword.setError(getResources().getString(R.string.contraseña_invalida));
             return;
         }
 
 
-        progressDialog.setMessage("Realizando registro en linea...");
+        if (!password.equals(confirmPass) ) {
+
+            TextConfirmPass.requestFocus();
+            TextConfirmPass.setError(getResources().getString(R.string.error_confirm_pass));
+            return;
+        }
+
+
+        progressDialog.setMessage(getResources().getString(R.string.registrando_msg));
         progressDialog.show();
 
 
@@ -73,13 +105,49 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
 
                         if (task.isSuccessful()) {
 
-                            Toast.makeText(Registrar.this, "Se ha registrado el usuario con el email: " + TextEmail.getText(), Toast.LENGTH_LONG).show();
+                            String tipoUsuario = getIntent().getExtras().getString("tipoUsuario");
+
+                            Map<String, String> userMap = new HashMap<>();
+                            userMap.put("correo", email);
+                            userMap.put("tipo_usuario", tipoUsuario);
+                            userMap.put("nombre", "");
+                            userMap.put("imagen", "");
+                            userMap.put("apellido", "");
+                            userMap.put("telefono", "");
+
+                            firebaseFirestore.collection("Usuarios").document(firebaseAuth.getCurrentUser().getUid()).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if(task.isSuccessful()){
+
+                                        Toast.makeText(Registrar.this, getResources().getString(R.string.registro_exitoso) + " " + TextEmail.getText(), Toast.LENGTH_LONG).show();
+
+                                    } else {
+
+                                        String error = task.getException().getMessage();
+                                        Toast.makeText(Registrar.this, "Firestore Error : " + error, Toast.LENGTH_LONG).show();
+
+                                    }
+
+                                }
+                            });
+
                         } else {
+
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(Registrar.this, "Ese usuario ya existe ", Toast.LENGTH_SHORT).show();
+
+                                TextEmail.requestFocus();
+                                TextEmail.setError(getResources().getString(R.string.correo_ya_existe));
+
                             } else {
-                                Toast.makeText(Registrar.this, "No se pudo registrar el usuario, el correo es incorrecto ", Toast.LENGTH_LONG).show();
+
+                                Toast.makeText(Registrar.this, getResources().getString(R.string.registro_fallido), Toast.LENGTH_LONG).show();
+
+
                             }
+
+
                         }
                         progressDialog.dismiss();
                     }

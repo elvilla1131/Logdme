@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".Registrar">
 
 
@@ -12,75 +13,108 @@
         android:id="@+id/tvRegistrar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="104dp"
-        android:fontFamily="@font/nunito_semibold"
+        android:fontFamily="@font/poppins"
         android:text="@string/registrar"
         android:textAlignment="center"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/TxtEmail"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout6"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="64dp"
-        android:background="@drawable/text_view_border"
-        android:ems="10"
-        android:fontFamily="@font/nunito_semibold"
-        android:hint="@string/correo"
-        android:inputType="textEmailAddress"
-        android:paddingBottom="10dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:textColorHint="@color/whiteTransparentHalf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRegistrar" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRegistrar">
 
-    <EditText
-        android:id="@+id/TxtPassword"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/TxtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:fontFamily="@font/nunito_semibold"
+            android:hint="@string/correo"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/white" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/text_view_border"
-        android:ems="10"
-        android:fontFamily="@font/nunito_semibold"
-        android:hint="@string/password"
-        android:inputType="textEmailSubject"
-        android:paddingBottom="10dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="10dp"
+        android:textColorHint="@color/whiteTransparentHalf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/TxtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:fontFamily="@font/nunito_semibold"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:textColor="@android:color/white"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:textColorHint="@color/whiteTransparentHalf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TxtEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/TxtConfirmPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:fontFamily="@font/nunito_semibold"
+            android:hint="@string/confirmar_contrasena"
+            android:inputType="textPassword"
+            android:textColor="@android:color/white" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/botonRegistrar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:background="@drawable/button_background_primary"
+        android:background="@drawable/button_background_gray"
         android:fontFamily="@font/nunito_semibold"
         android:onClick="onClick"
-        android:text="@string/registrar"
+        android:text="@string/crear_cuenta"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textColor="#4d4d4d"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TxtPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Arrendador extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,6 +30,9 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
 
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
+
+    private String id_usuarioActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +40,11 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_arrendador);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
 
-        TextEmail = findViewById(R.id.TxtEmail);
-        TextPassword = findViewById(R.id.TxtPassword);
+        TextEmail = findViewById(R.id.TxtEmailArr);
+        TextPassword = findViewById(R.id.TxtPasswordPass);
 
         btnRegistrar = findViewById(R.id.botonRegistrar);
 
@@ -48,7 +56,8 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent btnRegistrar = new Intent(Arrendador.this,Registrar.class);
+                Intent btnRegistrar = new Intent(Arrendador.this, Registrar.class);
+                btnRegistrar.putExtra("tipoUsuario", "ARR");
                 startActivity(btnRegistrar);
             }
         });
@@ -65,17 +74,27 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
 
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Se debe ingresar un email", Toast.LENGTH_LONG).show();
+            TextEmail.requestFocus();
+            TextEmail.setError(getResources().getString(R.string.error_campo_vacio));
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Falta ingresar la contraseña", Toast.LENGTH_LONG).show();
+
+            TextPassword.requestFocus();
+            TextPassword.setError(getResources().getString(R.string.error_campo_vacio));
+            return;
+        }
+
+        if (password.length() < 6) {
+
+            TextPassword.requestFocus();
+            TextPassword.setError(getResources().getString(R.string.contraseña_invalida));
             return;
         }
 
 
-        progressDialog.setMessage("Realizando consulta en linea...");
+        progressDialog.setMessage(getResources().getString(R.string.consultando_msg));
         progressDialog.show();
 
 
@@ -87,19 +106,26 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
                         if (task.isSuccessful()) {
                             int pos = email.indexOf("@");
                             String user = email.substring(0, pos);
-                            Toast.makeText(Arrendador.this, "Bienvenido: " + TextEmail.getText(), Toast.LENGTH_LONG).show();
-                            Intent intencion = new Intent(getApplication(), PrincipalArrendador.class);//cambiar a PrincipalArrendador
-                            //intencion.putExtra(Bienvenido.user, user);
+
+                            Toast.makeText(Arrendador.this, getResources().getString(R.string.bienvenido) + " " + user, Toast.LENGTH_LONG).show();
+
+                            Intent intencion = new Intent(getApplication(), PrincipalArrendador.class);
                             startActivity(intencion);
 
 
                         } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(Arrendador.this, "Ese usuario ya existe ", Toast.LENGTH_SHORT).show();
+
+                                TextEmail.requestFocus();
+                                TextEmail.setError(getResources().getString(R.string.correo_ya_existe));
+
                             } else {
-                                Toast.makeText(Arrendador.this, "No se pudo registrar el usuario, el correo es incorrecto", Toast.LENGTH_LONG).show();
+
+                                Toast.makeText(Arrendador.this, getResources().getString(R.string.inicio_fallido), Toast.LENGTH_LONG).show();
+
                             }
                         }
+
                         progressDialog.dismiss();
                     }
                 });
@@ -107,22 +133,51 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser usuario_actual = firebaseAuth.getCurrentUser();
+
+        Log.d("MyActivity", "Usuario actual : " + usuario_actual);
+
+        if(usuario_actual != null){
+
+            id_usuarioActual = firebaseAuth.getCurrentUser().getUid();
+
+            firebaseFirestore.collection("Usuarios").document(id_usuarioActual).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                    if (task.isSuccessful()){
+
+                        if (task.getResult().getString("tipo_usuario").equals("ARR")){
+                            Intent i = new Intent(Arrendador.this, PrincipalArrendador.class);
+                            startActivity(i);
+                            finish();
+                        }
+
+                    }else{
+
+                        String error = task.getException().getMessage();
+                        Toast.makeText(Arrendador.this,"Error : " + error,Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Arrendador.this, Principal.class);
+        startActivity(i);
+        finish();
+    }
 
     @Override
     public void onClick(View view) {
-
         loguearUsuario();
-
-
-    }
-    public void borrar(View v){
-        TextEmail.setText("");
-        TextPassword.setText("");
-        TextEmail.requestFocus();
-        TextPassword.requestFocus();
-
-
-
     }
 
 }

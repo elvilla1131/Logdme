@@ -3,6 +3,7 @@
     <string name="email">Correo Electrónico</string>
     <string name="password">Contraseña</string>
     <string name="registrar">Crear nueva cuenta</string>
+    <string name="crear_cuenta">Crear cuenta</string>
     <string name="title_activity_bienvenido">Bienvenido</string>
     <string name="login">Iniciar Sesión</string>
     <string name="bienvenida_principal">Bienvenido a Lodgme.</string>
@@ -11,6 +12,15 @@
     <string name="bienvenido">Bienvenido</string>
     <string name="usuario">Usuario</string>
     <string name="alquilador">Alquilador</string>
+    <string name="registrando_msg">Realizando registro en linea...</string>
+    <string name="consultando_msg">Realizando consulta en linea...</string>
+    <string name="error_confirm_pass">Las contraseñas no coinciden</string>
+    <string name="registro_exitoso">Se ha registrado el usuario : </string>
+    <string name="correo_ya_existe">El correo ingresado ya existe</string>
+    <string name="registro_fallido">No se pudo registrar el usuario, debe haber un error en los datos ingresados</string>
+    <string name="contraseña_invalida">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="inicio_fallido">Usuario o Contraseña incorrecta </string>
+
 
     <string name="pautar_pension">¿Qué caracteristicas tendrá tu pensión?</string>
     <string name="nombre_pension">Confortable pension...</string>
@@ -25,7 +35,6 @@
     <string name="perfil_nav">PERFIL</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="precio_pension">Precio Mensual (COP)</string>
     <string name="barrio_pension">Ubicación (Barrio)</string>
     <string name="politicas_pension">Políticas</string>
@@ -63,4 +72,13 @@
         <item>@string/si</item>
         <item>@string/no</item>
     </string-array>
+    <string name="moneda">COP</string>
+    <string name="necesitas_nueva_cuenta">¿Necesitas una nueva cuenta?</string>
+    <string name="confirmar_contrasena">Confirmar contraseña</string>
+
+    <string name="publicado_por">Publicado por :</string>
+    <string name="cerrar_sesion_titulo">Cerrar Sesión</string>
+    <string name="cerrar_sesion_mensaje">¿Seguro que desea cerrar la sesión?</string>
+    <string name="positivo">Si</string>
+    <string name="negativo">No</string>
 </resources>

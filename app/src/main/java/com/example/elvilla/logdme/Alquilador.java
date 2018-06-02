@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Alquilador extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,15 +29,18 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
     private ProgressDialog progressDialog;
 
 
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore firebaseFirestore;
+
+    private String id_usuarioActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alquilador);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         TextEmail = findViewById(R.id.TxtEmail);
         TextPassword = findViewById(R.id.TxtPassword);
@@ -48,7 +55,8 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent btnRegistrar = new Intent(Alquilador.this,RegistrarAlquilador.class);
+                Intent btnRegistrar = new Intent(Alquilador.this, Registrar.class);
+                btnRegistrar.putExtra("tipoUsuario", "AL");
                 startActivity(btnRegistrar);
             }
         });
@@ -65,21 +73,30 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
 
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Se debe ingresar un email", Toast.LENGTH_LONG).show();
+            TextEmail.requestFocus();
+            TextEmail.setError(getResources().getString(R.string.error_campo_vacio));
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Falta ingresar la contraseña", Toast.LENGTH_LONG).show();
+
+            TextPassword.requestFocus();
+            TextPassword.setError(getResources().getString(R.string.error_campo_vacio));
             return;
         }
 
+        if (password.length() < 6) {
 
-        progressDialog.setMessage("Realizando consulta en linea...");
+            TextPassword.requestFocus();
+            TextPassword.setError(getResources().getString(R.string.contraseña_invalida));
+            return;
+        }
+
+        progressDialog.setMessage(getResources().getString(R.string.consultando_msg));
         progressDialog.show();
 
 
-        firebaseAuth.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -87,17 +104,23 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
                         if (task.isSuccessful()) {
                             int pos = email.indexOf("@");
                             String user = email.substring(0, pos);
-                            Toast.makeText(Alquilador.this, "Bienvenido: " + TextEmail.getText(), Toast.LENGTH_LONG).show();
-                            Intent intencion = new Intent(getApplication(), PrincipalAlquilador.class);//cambiar a PrincipalAlquilador
-                            //intencion.putExtra(Bienvenido.user, user);
+
+
+                            Toast.makeText(Alquilador.this, getResources().getString(R.string.bienvenido) + " " + user, Toast.LENGTH_LONG).show();
+
+                            Intent intencion = new Intent(getApplication(), PrincipalAlquilador.class);
                             startActivity(intencion);
 
 
                         } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(Alquilador.this, "Ese usuario ya existe ", Toast.LENGTH_SHORT).show();
+
+                                TextEmail.requestFocus();
+                                TextEmail.setError(getResources().getString(R.string.correo_ya_existe));
+
                             } else {
-                                Toast.makeText(Alquilador.this, "No se pudo registrar el usuario, el correo es incorrecto", Toast.LENGTH_LONG).show();
+
+                                Toast.makeText(Alquilador.this, getResources().getString(R.string.inicio_fallido), Toast.LENGTH_LONG).show();
                             }
                         }
                         progressDialog.dismiss();
@@ -107,20 +130,55 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        FirebaseUser usuario_actual = mAuth.getCurrentUser();
+
+        Log.d("MyActivity", "Usuario actual : " + usuario_actual);
+
+        if(usuario_actual != null){
+
+            id_usuarioActual = usuario_actual.getUid();
+            Log.d("MyActivity", "Id Usuario actual : " + id_usuarioActual);
+
+
+            firebaseFirestore.collection("Usuarios").document(id_usuarioActual).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                    if (task.isSuccessful()){
+
+                        if (task.getResult().getString("tipo_usuario").equals("AL")){
+                            Intent i = new Intent(Alquilador.this, PrincipalAlquilador.class);
+                            startActivity(i);
+                            finish();
+                        }
+
+                    }else{
+
+                        String error = task.getException().getMessage();
+                        Toast.makeText(Alquilador.this,"Error : " + error,Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Alquilador.this, Principal.class);
+        startActivity(i);
+        finish();
+    }
 
     @Override
     public void onClick(View view) {
 
         loguearUsuario();
-
-
-    }
-    public void borrar(View v){
-        TextEmail.setText("");
-        TextPassword.setText("");
-        TextEmail.requestFocus();
-        TextPassword.requestFocus();
-
 
 
     }

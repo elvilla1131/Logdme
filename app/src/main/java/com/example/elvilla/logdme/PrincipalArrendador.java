@@ -1,8 +1,10 @@
 package com.example.elvilla.logdme;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -95,12 +97,15 @@ public class PrincipalArrendador extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser usuarioActual = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser usuarioActual = mAuth.getCurrentUser();
         if(usuarioActual == null){
-            //Enviar al login
+
+            Intent i = new Intent(PrincipalArrendador.this, Arrendador.class);
+            startActivity(i);
+            finish();
         }else{
 
-            id_usuario_actual = mAuth.getCurrentUser().getUid();
+            id_usuario_actual = usuarioActual.getUid();
 
             firebaseFirestore.collection("Usuarios").document(id_usuario_actual).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -108,11 +113,11 @@ public class PrincipalArrendador extends AppCompatActivity {
 
                     if (task.isSuccessful()){
 
-                        if (!task.getResult().exists()){
+                       /* if (!task.getResult().exists()){
                             Intent i = new Intent(PrincipalArrendador.this, PerfilAlquilador.class);
                             startActivity(i);
                             finish();
-                        }
+                        }*/
 
                     }else{
 
@@ -124,7 +129,47 @@ public class PrincipalArrendador extends AppCompatActivity {
             });
         }
     }
-/*
+
+    private void logOut() {
+
+        String positivo, negativo;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.cerrar_sesion_titulo));
+        builder.setMessage(getResources().getString(R.string.cerrar_sesion_mensaje));
+        positivo = getResources().getString(R.string.positivo);
+        negativo = getResources().getString(R.string.negativo);
+
+        builder.setPositiveButton(positivo, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mAuth.signOut();
+
+                Intent i = new Intent(PrincipalArrendador.this, Arrendador.class);
+                startActivity(i);
+            }
+        });
+
+        builder.setNegativeButton(negativo, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        logOut();
+
+    }
+
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

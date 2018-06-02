@@ -131,7 +131,7 @@ public class AdaptadorPensionArrendador extends RecyclerView.Adapter<AdaptadorPe
 
         public void setImgPension(String downloadUri, String thumbUri){
 
-            imgPension = v.findViewById(R.id.imgUsuarioPensionPub);
+            imgPension = v.findViewById(R.id.imgPensionPub);
 
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.placeholder(R.drawable.default_principal_image);
