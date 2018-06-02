@@ -127,7 +127,8 @@ public class PautarPension extends AppCompatActivity {
                     servLavadora = cmbLavadora.getSelectedItemPosition();
                     precio = mPrecio.getText().toString();
 
-                    final String randomName = UUID.randomUUID().toString();
+                    final String randomName = UUID.randomUUID().toString(),
+                                 randomId = UUID.randomUUID().toString();
 
                     StorageReference filePath = storageReference.child("imagenes_pension").child(randomName + ".jpg");
 
@@ -165,6 +166,7 @@ public class PautarPension extends AppCompatActivity {
                                         String downloadthumbUri = taskSnapshot.getDownloadUrl().toString();
 
                                         Map<String, Object> postMap = new HashMap<>();
+                                        postMap.put("id_pension", randomId);
                                         postMap.put("id_usuario", id_usuario_actual);
                                         postMap.put("url_imagen", downloadUri);
                                         postMap.put("titulo", nombrePension);
@@ -177,6 +179,7 @@ public class PautarPension extends AppCompatActivity {
                                         postMap.put("timestamp", FieldValue.serverTimestamp());
                                         postMap.put("thumbnail", downloadthumbUri);
 
+                                        /*
                                         firebaseFirestore.collection("Pensiones").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
 
                                             @Override
@@ -199,7 +202,29 @@ public class PautarPension extends AppCompatActivity {
                                                 pautarPensionProgressBar.setVisibility(View.INVISIBLE);
 
                                             }
+                                        });*/
+
+                                        firebaseFirestore.collection("Pensiones").document(randomId).set(postMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+
+                                                Toast.makeText(PautarPension.this,getResources().getString(R.string.guardar_pension_correcto),Toast.LENGTH_LONG).show();
+
+                                                Intent intentPrincipal = new Intent(PautarPension.this, PrincipalAlquilador.class);
+                                                startActivity(intentPrincipal);
+                                                finish();
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                                String error = e.getMessage();
+                                                Toast.makeText(PautarPension.this,"Firestore Error : " + error,Toast.LENGTH_LONG).show();
+
+                                            }
                                         });
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -306,20 +331,6 @@ public class PautarPension extends AppCompatActivity {
             return false;
         }
 
-        if(TextUtils.isEmpty(barrio)){
-            mBarrio.requestFocus();
-            mBarrio.setError(getResources().getString(R.string.error_campo_vacio));
-
-            return false;
-        }
-
-        if(TextUtils.isEmpty(restricciones)){
-            mRestriciones.requestFocus();
-            mRestriciones.setError(getResources().getString(R.string.error_campo_vacio));
-
-            return false;
-        }
-
         if(TextUtils.isEmpty(numHuespedes)){
             mNumHuespedes.requestFocus();
             mNumHuespedes.setError(getResources().getString(R.string.error_campo_vacio));
@@ -343,6 +354,21 @@ public class PautarPension extends AppCompatActivity {
 
             return false;
         }
+
+        if(TextUtils.isEmpty(barrio)){
+            mBarrio.requestFocus();
+            mBarrio.setError(getResources().getString(R.string.error_campo_vacio));
+
+            return false;
+        }
+
+        if(TextUtils.isEmpty(restricciones)){
+            mRestriciones.requestFocus();
+            mRestriciones.setError(getResources().getString(R.string.error_campo_vacio));
+
+            return false;
+        }
+
         return true;
     }
 

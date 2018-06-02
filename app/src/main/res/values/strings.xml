@@ -81,4 +81,10 @@
     <string name="cerrar_sesion_mensaje">¿Seguro que desea cerrar la sesión?</string>
     <string name="positivo">Si</string>
     <string name="negativo">No</string>
+    <string name="contactar_vendedor">Contactar</string>
+    <string name="desde">Desde :</string>
+
+    <string name="eliminar">Eliminar</string>
+    <string name="pregunta_eliminacion">¿Está seguro que desea eliminar a esta pensión?</string>
+
 </resources>

@@ -30,13 +30,13 @@ public class AdaptadorPension extends RecyclerView.Adapter<AdaptadorPension.Pens
     public  Context cntxt;
 
     private FirebaseFirestore firebaseFirestore;
-    private FirebaseAuth firebaseAuth;
 
-    //private OnPensionClickListener clickListener;
-    public AdaptadorPension(List<Pension> listaPensiones){
+    private OnPensionClickListener clickListener;
+
+    public AdaptadorPension(List<Pension> listaPensiones, OnPensionClickListener clickListener){
 
         this.listaPensiones = listaPensiones;
-     //   this.clickListener = clickListener;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -67,10 +67,9 @@ public class AdaptadorPension extends RecyclerView.Adapter<AdaptadorPension.Pens
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
 
-                    String nombreDueño = task.getResult().getString("nombre");
                     String imagenDueño = task.getResult().getString("imagen");
 
-                    holder.setUserData(nombreDueño, imagenDueño);
+                    holder.setUserData(imagenDueño);
 
 
                 } else {
@@ -78,6 +77,13 @@ public class AdaptadorPension extends RecyclerView.Adapter<AdaptadorPension.Pens
                     //Firebase exception
 
                 }
+            }
+        });
+
+        holder.v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListener.onPensionClick(p);
             }
         });
 
@@ -96,7 +102,7 @@ public class AdaptadorPension extends RecyclerView.Adapter<AdaptadorPension.Pens
         private View v;
 
         private ImageView imgDueño, imgPension;
-        private TextView tvDueño, tvFechaPublicada, tvTitulo, tvDescripcion;
+        private TextView tvFechaPublicada, tvTitulo, tvDescripcion;
 
         public PensionViewHolder(View itemView){
             super(itemView);
@@ -133,12 +139,10 @@ public class AdaptadorPension extends RecyclerView.Adapter<AdaptadorPension.Pens
             tvFechaPublicada.setText(fecha);
         }
 
-        public void setUserData(String name, String image){
+        public void setUserData(String image){
 
             imgDueño = v.findViewById(R.id.imgUsuarioPension);
-            tvDueño = v.findViewById(R.id.tvNombreDueño);
 
-            tvDueño.setText(name);
 
             RequestOptions placeholderOption = new RequestOptions();
             placeholderOption.placeholder(R.drawable.default_profile);
@@ -149,7 +153,7 @@ public class AdaptadorPension extends RecyclerView.Adapter<AdaptadorPension.Pens
     }
 
     public interface OnPensionClickListener{
-        void onPersonaClick(Pension p);
+        void onPensionClick(Pension p);
     }
 
 }

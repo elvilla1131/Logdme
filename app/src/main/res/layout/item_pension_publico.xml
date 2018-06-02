@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <!--<de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgUsuarioPensionPub"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -29,21 +29,9 @@
                 android:layout_marginTop="24dp"
                 android:src="@drawable/default_profile"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/open_sans"
-                android:text="@string/fecha_publicada"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imgUsuarioPensionPub"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
+            <!--<TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,19 +40,9 @@
                 android:text="@string/por"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imgUsuarioPensionPub"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
 
-            <TextView
-                android:id="@+id/tvFechaPub"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:text="Fecha publicada"
-                app:layout_constraintStart_toEndOf="@+id/textView3"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
+            <!-- <TextView
                 android:id="@+id/tvUsuarioPub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,18 +50,42 @@
                 android:fontFamily="@font/open_sans"
                 android:text="Usuario"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/fecha_publicada"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgPensionPub" />
+
+
+            <TextView
+                android:id="@+id/tvFechaPub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/open_sans"
+                android:text="Fecha publicada"
+                app:layout_constraintStart_toEndOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/imgPensionPub" />
+
 
             <ImageView
                 android:id="@+id/imgPensionPub"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="8dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgUsuarioPensionPub"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/default_principal_image" />
 
             <TextView
@@ -94,26 +96,28 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins"
                 android:text="Titulo Pension"
-                android:textSize="24sp"
+                android:textColor="#212121"
+                android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgPensionPub" />
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
             <TextView
                 android:id="@+id/tvPrecioPensionPub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/poppins"
                 android:text="100000"
                 android:textAlignment="textEnd"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionPub" />
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="22dp"
+                android:layout_width="25dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
@@ -139,7 +143,7 @@
                 android:layout_width="25dp"
                 android:layout_height="24dp"
                 android:layout_marginBottom="16dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -150,8 +154,8 @@
                 android:id="@+id/tvBarrioPensionPub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/open_sans"
                 android:text="Barrio"
                 android:textAlignment="textStart"
@@ -160,7 +164,7 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="33dp"
+                android:layout_width="25dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
@@ -185,7 +189,7 @@
                 android:layout_width="38dp"
                 android:layout_height="28dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@mipmap/action_like_gray" />
@@ -195,36 +199,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/poppins"
                 android:text="$"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionPub" />
-
-            <TextView
-                android:id="@+id/tvMoneda"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/open_sans"
-                android:text="@string/moneda"
-                app:layout_constraintStart_toEndOf="@+id/tvPrecioPensionPub"
                 app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionPub" />
 
             <TextView
                 android:id="@+id/tvTipoPago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/open_sans"
                 android:text="Mensual"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/imageView2"
-                app:layout_constraintStart_toEndOf="@+id/tvMoneda" />
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/tvPrecioPensionPub"
+                app:layout_constraintTop_toTopOf="@+id/tvPrecioPensionPub" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

@@ -4,12 +4,13 @@ package com.example.elvilla.logdme;
 import java.util.Date;
 
 public class Pension {
-    public String id_usuario, url_imagen, titulo, descripcion, barrio, restricciones,no_huespedes, serv_lavadora, precio, thumbnail;
+    public String id_pension, id_usuario, url_imagen, titulo, descripcion, barrio, restricciones,no_huespedes, serv_lavadora, precio, thumbnail;
     public Date timestamp;
 
     public Pension (){}
 
-    public Pension(String id_usuario, String url_imagen, String titulo, String descripcion, String barrio, String restricciones, String no_huespedes, String serv_lavadora, String precio, String thumbnail, Date timestamp) {
+    public Pension(String id_pension, String id_usuario, String url_imagen, String titulo, String descripcion, String barrio, String restricciones, String no_huespedes, String serv_lavadora, String precio, String thumbnail, Date timestamp) {
+        this.id_pension = id_pension;
         this.id_usuario = id_usuario;
         this.url_imagen = url_imagen;
         this.titulo = titulo;
@@ -21,6 +22,14 @@ public class Pension {
         this.precio = precio;
         this.thumbnail = thumbnail;
         this.timestamp = timestamp;
+    }
+
+    public String getId_pension() {
+        return id_pension;
+    }
+
+    public void setId_pension(String id_pension) {
+        this.id_pension = id_pension;
     }
 
     public String getId_usuario() {

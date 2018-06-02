@@ -26,9 +26,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class PrincipalArrendador extends AppCompatActivity {
+public class PrincipalArrendador extends AppCompatActivity implements AdaptadorPensionArrendador.OnPensionClickListener{
 
     private android.support.v7.widget.Toolbar mainArrendadorToolbar;
 
@@ -59,7 +60,7 @@ public class PrincipalArrendador extends AppCompatActivity {
         listaPensiones = new ArrayList<>();
         ryclListaPensiones = findViewById(R.id.lst_pensiones);
 
-        adaptadorPension = new AdaptadorPensionArrendador(listaPensiones);
+        adaptadorPension = new AdaptadorPensionArrendador(listaPensiones, this);
         ryclListaPensiones.setLayoutManager(new LinearLayoutManager(PrincipalArrendador.this));
         ryclListaPensiones.setAdapter(adaptadorPension);
 
@@ -199,5 +200,32 @@ public class PrincipalArrendador extends AppCompatActivity {
                 return false;
         }
 
+    }
+
+    @Override
+    public void onPensionClick(Pension p) {
+        Intent i = new Intent(PrincipalArrendador.this, DetallePensionArr.class);
+        Bundle b = new Bundle();
+
+        b.putString("id_pension", p.getId_pension());
+        b.putString("id_usuario", p.getId_usuario());
+        b.putString("titulo", p.getTitulo());
+        b.putString("url_imagen", p.getUrl_imagen());
+        b.putString("descripcion", p.getDescripcion());
+        b.putString("precio", p.getPrecio());
+        b.putString("no_huespedes", p.getNo_huespedes());
+        b.putString("serv_lavadora", p.getServ_lavadora());
+        b.putString("barrio", p.getBarrio());
+        b.putString("thumbnail", p.getThumbnail());
+
+        long milisecond = p.getTimestamp().getTime();
+        android.text.format.DateFormat df = new android.text.format.DateFormat();
+        String dateString = df.format("MM/dd/yyyy", new Date(milisecond)).toString();
+        b.putString("timestamp", dateString);
+
+        b.putString("restricciones", p.getRestricciones());
+
+        i.putExtra("datos", b);
+        startActivity(i);
     }
 }

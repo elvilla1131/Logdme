@@ -26,12 +26,13 @@ public class AdaptadorPensionArrendador extends RecyclerView.Adapter<AdaptadorPe
     public Context cntxt;
 
     private FirebaseFirestore firebaseFirestore;
-    private FirebaseAuth firebaseAuth;
 
+    private OnPensionClickListener clickListener;
 
-    public AdaptadorPensionArrendador(List<Pension> listaPensiones){
+    public AdaptadorPensionArrendador(List<Pension> listaPensiones, OnPensionClickListener clickListener){
 
         this.listaPensiones = listaPensiones;
+        this.clickListener = clickListener;
     }
 
 
@@ -62,7 +63,7 @@ public class AdaptadorPensionArrendador extends RecyclerView.Adapter<AdaptadorPe
         String dateString = df.format("MM/dd/yyyy", new Date(milisecond)).toString();
         holder.setDate(dateString);
 
-        String id_usuario = p.getId_usuario();
+       /* String id_usuario = p.getId_usuario();
         firebaseFirestore.collection("Usuarios").document(id_usuario).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -80,6 +81,13 @@ public class AdaptadorPensionArrendador extends RecyclerView.Adapter<AdaptadorPe
 
                 }
             }
+        });*/
+
+        holder.v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListener.onPensionClick(p);
+            }
         });
     }
 
@@ -93,8 +101,8 @@ public class AdaptadorPensionArrendador extends RecyclerView.Adapter<AdaptadorPe
 
         private View v;
 
-        private ImageView imgDueño, imgPension;
-        private TextView tvDueño, tvFechaPublicada, tvTitulo, tvPrecio, tvBarrio, tvNoHuespedes, tvLavadora;
+        private ImageView  imgPension;
+        private TextView tvFechaPublicada, tvTitulo, tvPrecio, tvBarrio, tvNoHuespedes, tvLavadora;
 
         public PensionViewHolder(View itemView){
             super(itemView);
@@ -145,7 +153,7 @@ public class AdaptadorPensionArrendador extends RecyclerView.Adapter<AdaptadorPe
             tvFechaPublicada = v.findViewById(R.id.tvFechaPub);
             tvFechaPublicada.setText(fecha);
         }
-
+/*
         public void setUserData(String name, String image){
 
             imgDueño = v.findViewById(R.id.imgUsuarioPensionPub);
@@ -158,6 +166,10 @@ public class AdaptadorPensionArrendador extends RecyclerView.Adapter<AdaptadorPe
 
             Glide.with(cntxt).applyDefaultRequestOptions(placeholderOption).load(image).into(imgDueño);
 
-        }
+        }*/
+    }
+
+    public interface OnPensionClickListener{
+        void onPensionClick(Pension p);
     }
 }
