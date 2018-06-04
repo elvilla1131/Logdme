@@ -9,11 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -143,6 +146,26 @@ public class PrincipalArrendador extends AppCompatActivity implements AdaptadorP
         builder.setPositiveButton(positivo, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                
+                id_usuario_actual = mAuth.getCurrentUser().getUid();
+
+                firebaseFirestore.collection("Sesiones").document(id_usuario_actual).update("estado", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Log.d("TAG", "DocumentSnapshot successfully updated!");
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Log.w("TAG", "Error updating document", e);
+
+                    }
+                });
+
+
                 mAuth.signOut();
 
                 Intent i = new Intent(PrincipalArrendador.this, Arrendador.class);

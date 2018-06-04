@@ -37,5 +37,5 @@
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/lst_mis_pensiones"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/action_add" />
+        app:srcCompat="@drawable/fab_add" />
 </android.support.constraint.ConstraintLayout>

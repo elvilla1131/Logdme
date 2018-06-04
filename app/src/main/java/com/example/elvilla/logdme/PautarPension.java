@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +25,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,6 +65,9 @@ public class PautarPension extends AppCompatActivity {
     private Spinner cmbLavadora;
     private String lavadoraOpcs[];
 
+    String id_pension, url_imagen_pension, thumbnail, titulo, fecha, barrio, no_huespedes, serv_lavadora, descripcion, restricciones, precio;
+
+
     private ArrayAdapter<String> adaptadorLavadora;
 
     private Button mGuardarDatos;
@@ -71,6 +77,10 @@ public class PautarPension extends AppCompatActivity {
     private String id_usuario_actual;
 
     private Bitmap compressedImageFile;
+
+    private Intent i ;
+    private Bundle bundle;
+    private Boolean enModificacion = false;
 
 
     @Override
@@ -277,6 +287,52 @@ public class PautarPension extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        i = getIntent();
+        bundle = i.getBundleExtra("datos");
+
+        Log.v("TAG", "Bundle : " + bundle);
+
+        if(bundle != null){
+            enModificacion = true;
+            // Obteniendo los datos de la pension pasados por DetallePEnsionAlqu (A través del bundle)
+
+            id_pension = bundle.getString("id_pension");
+            url_imagen_pension = bundle.getString("url_imagen");
+            thumbnail = bundle.getString("thumbnail");
+            titulo = bundle.getString("titulo");
+            fecha = bundle.getString("timestamp");
+            barrio = bundle.getString("barrio");
+            no_huespedes = bundle.getString("no_huespedes");
+            serv_lavadora = bundle.getString("serv_lavadora");
+            descripcion = bundle.getString("descripcion");
+            restricciones = bundle.getString("restricciones");
+            precio = bundle.getString("precio");
+
+
+            RequestOptions placeholderOption = new RequestOptions();
+            placeholderOption.placeholder(R.drawable.default_principal_image);
+
+            //modifica la imagen de la pension
+            Glide.with(this).applyDefaultRequestOptions(placeholderOption).load(url_imagen_pension).into(imagenPension);
+
+
+
+            mTitulo.setText(titulo);
+            mDescripcion.setText(descripcion);
+            mNumHuespedes.setText(no_huespedes);
+            mPrecio.setText(precio);
+            mBarrio.setText(barrio);
+            mRestriciones.setText(restricciones);
+            cmbLavadora.setSelection((serv_lavadora.equals("Si"))?1:2);
+        }
+
+
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -317,7 +373,7 @@ public class PautarPension extends AppCompatActivity {
             return false;
         }
 
-        if(imagenPensionUri == null ){
+        if(imagenPensionUri == null && !enModificacion){
             imagenPension.requestFocus();
             mImagenPension.setError(getResources().getString(R.string.error_imagen_vacia));
 

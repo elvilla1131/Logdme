@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -24,7 +27,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class DetallePensionAlqu extends AppCompatActivity {
 
     private ImageView imgPension;
-    private TextView tvTitulo,tvFecha, tvBarrio, tvHuespedes, tvServLadadora, tvDescripcion, tvRestricciones, tvPrecio;
+    private TextView tvTitulo, tvBarrio, tvHuespedes, tvServLadadora, tvDescripcion, tvRestricciones, tvPrecio;
     String id_pension, url_imagen_pension, thumbnail, titulo, fecha, barrio, no_huespedes, serv_lavadora, descripcion, restricciones, precio;
 
     private Intent i ;
@@ -38,7 +41,6 @@ public class DetallePensionAlqu extends AppCompatActivity {
 
         imgPension = findViewById(R.id.imgPensionDetalle);
         tvTitulo = findViewById(R.id.tvTituloPensionDetalle);
-        tvFecha = findViewById(R.id.tvFechaPubPensionDetalle);
         tvBarrio = findViewById(R.id.tvBarrioPensionDetalle);
         tvHuespedes = findViewById(R.id.tvHuespedPensionDetalle);
         tvServLadadora = findViewById(R.id.tvLavadoraPensionDetalle);
@@ -72,7 +74,6 @@ public class DetallePensionAlqu extends AppCompatActivity {
         Glide.with(this).applyDefaultRequestOptions(placeholderOption).load(url_imagen_pension).into(imgPension);
 
         tvTitulo.setText(titulo);
-        tvFecha.setText(fecha);
         tvBarrio.setText(barrio);
         tvHuespedes.setText(no_huespedes);
         tvServLadadora.setText(serv_lavadora);
@@ -80,12 +81,6 @@ public class DetallePensionAlqu extends AppCompatActivity {
         tvRestricciones.setText(restricciones);
         tvPrecio.setText(precio);
 
-        firebaseFirestore.collection("Pensiones").whereEqualTo("id_pension", id_pension).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-            }
-        });
     }
 
     public void eliminar(View v){
@@ -100,17 +95,20 @@ public class DetallePensionAlqu extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-               /* firebaseFirestore.collection("Pensiones").whereEqualTo("titulo", true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot document = task.getResult();
-                            Log.v("TAG", "Resulatado "+ document);
-                        } else {
-                            Log.d("TAG", "get failed with ", task.getException());
-                        }
-                    }
-                });*/
+               firebaseFirestore.collection("Pensiones").document(id_pension).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                   @Override
+                   public void onSuccess(Void aVoid) {
+
+                       Toast.makeText(DetallePensionAlqu.this, getResources().getString(R.string.eliminacion_exitosa), Toast.LENGTH_LONG).show();
+
+                   }
+               }).addOnFailureListener(new OnFailureListener() {
+                   @Override
+                   public void onFailure(@NonNull Exception e) {
+
+                       Toast.makeText(DetallePensionAlqu.this, getResources().getString(R.string.eliminacion_fallida), Toast.LENGTH_LONG).show();
+                   }
+               });
 
 
                 onBackPressed();
@@ -128,10 +126,18 @@ public class DetallePensionAlqu extends AppCompatActivity {
         dialog.show();
     }
 
+    public void modificar(View v){
+        Intent i = new Intent(DetallePensionAlqu.this, PautarPension.class);
+        i.putExtra("datos", bundle);
+        startActivity(i);
+    }
+
     @Override
     public void onBackPressed() {
         finish();
         Intent i = new Intent(DetallePensionAlqu.this, PrincipalAlquilador.class);
         startActivity(i);
     }
+
+
 }

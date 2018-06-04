@@ -84,7 +84,7 @@
         android:layout_height="48dp"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/button_background_accent"
         android:fontFamily="@font/nunito_semibold"
         android:onClick="onClick"

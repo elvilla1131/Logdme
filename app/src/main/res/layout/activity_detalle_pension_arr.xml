@@ -13,8 +13,10 @@
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,15 +34,17 @@
 
             <TextView
                 android:id="@+id/tvTituloPensionDetalle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="Titulo Pension"
                 android:textColor="#212121"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgPensionDetalle" />
 
@@ -49,10 +53,10 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="96dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/default_profile"
                 app:layout_constraintStart_toEndOf="@+id/tvDueñoPensionDetalle"
-                app:layout_constraintTop_toBottomOf="@+id/imgPensionDetalle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionDetalle" />
 
             <TextView
                 android:id="@+id/tvPublicadoPor"
@@ -60,31 +64,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/nunito_light"
                 android:text="@string/publicado_por"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionDetalle" />
+                app:layout_constraintTop_toBottomOf="@+id/icUbicacion" />
 
             <TextView
                 android:id="@+id/tvDueñoPensionDetalle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/nunito_light"
                 android:text="Dueño"
                 app:layout_constraintStart_toEndOf="@+id/tvPublicadoPor"
-                app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionDetalle" />
+                app:layout_constraintTop_toBottomOf="@+id/icUbicacion" />
 
             <TextView
                 android:id="@+id/tvDesde"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:fontFamily="@font/open_sans"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunito_light"
                 android:text="@string/desde"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPublicadoPor" />
 
@@ -92,43 +95,45 @@
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="40dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:background="@android:color/darker_gray"
+                android:background="#EFEFEF"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgUsuarioPensionDetalle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDescripcionPensionDetalle" />
 
             <TextView
                 android:id="@+id/tvFechaPubPensionDetalle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:fontFamily="@font/open_sans"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunito_light"
                 android:text="Date"
                 app:layout_constraintStart_toEndOf="@+id/tvDesde"
-                app:layout_constraintTop_toTopOf="@+id/tvDesde" />
+                app:layout_constraintTop_toBottomOf="@+id/tvPublicadoPor" />
 
             <TextView
                 android:id="@+id/tvBarrioPensionDetalle"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="18dp"
-                android:fontFamily="@font/open_sans"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/nunito_light"
                 android:text="Ubicacion"
                 app:layout_constraintStart_toEndOf="@+id/icUbicacion"
-                app:layout_constraintTop_toBottomOf="@+id/view2" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionDetalle" />
 
             <ImageView
                 android:id="@+id/icUbicacion"
                 android:layout_width="29dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2"
+                app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionDetalle"
                 app:srcCompat="@mipmap/ic_location" />
 
             <ImageView
@@ -137,41 +142,52 @@
                 android:layout_height="28dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/tvBarrioPensionDetalle"
-                app:layout_constraintTop_toBottomOf="@+id/view2"
-                app:srcCompat="@mipmap/ic_room" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDesde"
+                app:srcCompat="@mipmap/ic_lodge" />
+
+            <TextView
+                android:id="@+id/tvHuespesdes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/nunito_light"
+                android:text="@string/huespedes"
+                app:layout_constraintStart_toEndOf="@+id/tvHuespedPensionDetalle"
+                app:layout_constraintTop_toBottomOf="@+id/tvFechaPubPensionDetalle" />
 
             <TextView
                 android:id="@+id/tvHuespedPensionDetalle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="18dp"
-                android:fontFamily="@font/open_sans"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/nunito_light"
                 android:text="2"
                 app:layout_constraintStart_toEndOf="@+id/icHuespedPensionDetalle"
-                app:layout_constraintTop_toBottomOf="@+id/view2" />
+                app:layout_constraintTop_toBottomOf="@+id/tvFechaPubPensionDetalle" />
 
             <ImageView
                 android:id="@+id/icLavadoraDetalle"
-                android:layout_width="31dp"
-                android:layout_height="26dp"
-                android:layout_marginStart="32dp"
+                android:layout_width="24dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/tvHuespedPensionDetalle"
-                app:layout_constraintTop_toBottomOf="@+id/view2"
+                app:layout_constraintStart_toEndOf="@+id/tvHuespesdes"
+                app:layout_constraintTop_toBottomOf="@+id/tvFechaPubPensionDetalle"
                 app:srcCompat="@mipmap/ic_laundry" />
 
             <TextView
                 android:id="@+id/tvLavadoraPensionDetalle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="18dp"
-                android:fontFamily="@font/open_sans"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/nunito_light"
                 android:text="Si"
                 app:layout_constraintStart_toEndOf="@+id/icLavadoraDetalle"
-                app:layout_constraintTop_toBottomOf="@+id/view2" />
+                app:layout_constraintTop_toBottomOf="@+id/tvFechaPubPensionDetalle" />
 
             <TextView
                 android:id="@+id/tvDescripcionPensionDetalle"
@@ -179,24 +195,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/open_sans"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_light"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis velit id quam sagittis, eget suscipit massa lacinia. Maecenas pellentesque urna nulla,"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/icUbicacion" />
+                app:layout_constraintTop_toBottomOf="@+id/icHuespedPensionDetalle" />
 
             <TextView
                 android:id="@+id/tvRestricciones"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/open_sans"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="@string/restriccion_pension"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDescripcionPensionDetalle" />
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
 
             <TextView
                 android:id="@+id/tvRestriccionesPensionDetalle"
@@ -205,10 +222,13 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_light"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis velit id quam sagittis"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvRestricciones" />
+
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
@@ -228,13 +248,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins"
             android:text="$"
             android:textColor="#212121"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -246,8 +268,8 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins"
             android:text="200.000"
-            android:textColor="#212121"
-            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvMoneda"
@@ -257,14 +279,12 @@
             android:id="@+id/tvTipoPago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginStart="8dp"
-            android:fontFamily="@font/poppins"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/nunito_semibold"
             android:text="Mensual"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvPrecioPensionDetalle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnContactarDetalle"

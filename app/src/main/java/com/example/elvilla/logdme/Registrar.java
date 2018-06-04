@@ -115,6 +115,7 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
                             userMap.put("apellido", "");
                             userMap.put("telefono", "");
 
+                            //Creacion de usuario en la base de datos
                             firebaseFirestore.collection("Usuarios").document(mAuth.getCurrentUser().getUid()).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -134,6 +135,7 @@ public class Registrar extends AppCompatActivity implements View.OnClickListener
 
                                 }
                             });
+
 
                         } else {
 

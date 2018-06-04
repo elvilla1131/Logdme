@@ -11,12 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,6 +62,9 @@ public class PrincipalAlquilador extends AppCompatActivity implements AdaptadorP
 
         mainAlquiladorToolbar = findViewById(R.id.principalAlquiladorToolbar);
         setSupportActionBar(mainAlquiladorToolbar);
+
+        getSupportActionBar().setTitle(getResources().getString(R.string.mis_pensiones));
+
 
         listaPensiones = new ArrayList<>();
         mMiListaPensiones = findViewById(R.id.lst_mis_pensiones);
@@ -159,6 +165,25 @@ public class PrincipalAlquilador extends AppCompatActivity implements AdaptadorP
         builder.setPositiveButton(positivo, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                id_usuario_actual = mAuth.getCurrentUser().getUid();
+
+                firebaseFirestore.collection("Sesiones").document(id_usuario_actual).update("estado", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                            Log.d("TAG", "DocumentSnapshot successfully updated!");
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Log.w("TAG", "Error updating document", e);
+
+                    }
+                });
+
                 mAuth.signOut();
 
                 Intent i = new Intent(PrincipalAlquilador.this, Alquilador.class);

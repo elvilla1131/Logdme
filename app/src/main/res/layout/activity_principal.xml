@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/button_background_primary"
         android:fontFamily="@font/nunito_semibold"
         android:text="@string/arrendador"

@@ -33,6 +33,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -159,7 +160,7 @@ public class PerfilAlquilador extends AppCompatActivity {
                             telefono = setupPhone.getText().toString();
 
                 //Valida si el campo del nombre esta vacio y si no se ha seleccionado imagen
-                if (validarNombre() && mainImageURI != null) {
+                if (validarDatos() && mainImageURI != null) {
 
                     setupProgress.setVisibility(View.VISIBLE);
 
@@ -215,7 +216,7 @@ public class PerfilAlquilador extends AppCompatActivity {
                     }
 
                 //Guarda todos los datos sin imagen
-                } else if(validarNombre()){
+                } else if(validarDatos()){
 
                     setupProgress.setVisibility(View.VISIBLE);
                     storeFirestoreWithouImage(user_name, apellido, telefono);
@@ -336,16 +337,23 @@ public class PerfilAlquilador extends AppCompatActivity {
         });
     }
 
-    public Boolean validarNombre(){
+    public Boolean validarDatos(){
 
-        String nombre;
+        String nombre, telefono;
 
         nombre = setupName.getText().toString();
+        telefono = setupPhone.getText().toString();
 
 
         if(TextUtils.isEmpty(nombre)){
             setupName.requestFocus();
             setupName.setError(getResources().getString(R.string.error_campo_vacio));
+            return false;
+        }
+
+        if(TextUtils.isEmpty(telefono)){
+            setupPhone.requestFocus();
+            setupPhone.setError(getResources().getString(R.string.error_campo_vacio));
             return false;
         }
 
@@ -387,7 +395,18 @@ public class PerfilAlquilador extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setupBtn.performClick();
+        if(TextUtils.isEmpty(setupName.getText().toString())){
+
+            setupBtn.performClick();
+
+        }else {
+
+            finish();
+            Intent i = new Intent(PerfilAlquilador.this, PrincipalAlquilador.class);
+            startActivity(i);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
+
     }
 }
 

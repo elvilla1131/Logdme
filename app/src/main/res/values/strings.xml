@@ -76,15 +76,19 @@
     <string name="necesitas_nueva_cuenta">¿Necesitas una nueva cuenta?</string>
     <string name="confirmar_contrasena">Confirmar contraseña</string>
 
-    <string name="publicado_por">Publicado por :</string>
+    <string name="publicado_por">Publicado por </string>
     <string name="cerrar_sesion_titulo">Cerrar Sesión</string>
     <string name="cerrar_sesion_mensaje">¿Seguro que desea cerrar la sesión?</string>
     <string name="positivo">Si</string>
     <string name="negativo">No</string>
     <string name="contactar_vendedor">Contactar</string>
-    <string name="desde">Desde :</string>
+    <string name="desde">Desde</string>
 
     <string name="eliminar">Eliminar</string>
+    <string name="modificar">Modificar</string>
     <string name="pregunta_eliminacion">¿Está seguro que desea eliminar a esta pensión?</string>
+    <string name="huespedes">Huespedes</string>
+    <string name="eliminacion_exitosa">Pension elimninada</string>
+    <string name="eliminacion_fallida">Ups! ha ocurrido un error no se ha podido eliminar la pensión</string>
 
 </resources>

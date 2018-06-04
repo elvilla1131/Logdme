@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Alquilador extends AppCompatActivity implements View.OnClickListener {
 
     private EditText TextEmail;
@@ -105,8 +108,32 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
                             int pos = email.indexOf("@");
                             String user = email.substring(0, pos);
 
-
                             Toast.makeText(Alquilador.this, getResources().getString(R.string.bienvenido) + " " + user, Toast.LENGTH_LONG).show();
+
+                            Map<String, Object> userSessMap = new HashMap<>();
+                            userSessMap.put("id_usuario", mAuth.getCurrentUser().getUid());
+                            userSessMap.put("tipo_usuario", "AL");
+                            userSessMap.put("estado", true);
+
+                            // Creacion de Sesion en la base de datos
+                            firebaseFirestore.collection("Sesiones").document(mAuth.getCurrentUser().getUid()).set(userSessMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if(task.isSuccessful()){
+
+                                        Log.v("TAG", "Sesion creada/modificada");
+
+                                    } else {
+
+                                        String error = task.getException().getMessage();
+                                        Toast.makeText(Alquilador.this, "Firestore Error : " + error, Toast.LENGTH_LONG).show();
+
+                                    }
+
+                                }
+                            });
+
 
                             Intent intencion = new Intent(getApplication(), PrincipalAlquilador.class);
                             startActivity(intencion);
@@ -128,45 +155,6 @@ public class Alquilador extends AppCompatActivity implements View.OnClickListene
                 });
 
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-        /*
-        FirebaseUser usuario_actual = mAuth.getCurrentUser();
-
-        Log.d("MyActivity", "Usuario actual : " + usuario_actual);
-
-        if(usuario_actual != null){
-
-            id_usuarioActual = usuario_actual.getUid();
-            Log.d("MyActivity", "Id Usuario actual : " + id_usuarioActual);
-
-
-            firebaseFirestore.collection("Usuarios").document(id_usuarioActual).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                    if (task.isSuccessful()){
-
-                        if (task.getResult().getString("tipo_usuario").equals("AL")){
-                            Intent i = new Intent(Alquilador.this, PrincipalAlquilador.class);
-                            startActivity(i);
-                            finish();
-                        }
-
-                    }else{
-
-                        String error = task.getException().getMessage();
-                        Toast.makeText(Alquilador.this,"Error : " + error,Toast.LENGTH_LONG).show();
-
-                    }
-                }
-            });
-        }*/
     }
 
     @Override

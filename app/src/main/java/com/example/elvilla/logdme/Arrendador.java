@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Arrendador extends AppCompatActivity implements View.OnClickListener {
 
     private EditText TextEmail;
@@ -29,7 +32,7 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
     private ProgressDialog progressDialog;
 
 
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth mAuth;
     private FirebaseFirestore firebaseFirestore;
 
     private String id_usuarioActual;
@@ -39,7 +42,7 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arrendador);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
 
@@ -98,7 +101,7 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
         progressDialog.show();
 
 
-        firebaseAuth.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -108,6 +111,30 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
                             String user = email.substring(0, pos);
 
                             Toast.makeText(Arrendador.this, getResources().getString(R.string.bienvenido) + " " + user, Toast.LENGTH_LONG).show();
+
+                            Map<String, Object> userSessMap = new HashMap<>();
+                            userSessMap.put("id_usuario", mAuth.getCurrentUser().getUid());
+                            userSessMap.put("tipo_usuario", "ARR");
+                            userSessMap.put("estado", true);
+
+                            // Creacion de Sesion en la base de datos
+                            firebaseFirestore.collection("Sesiones").document(mAuth.getCurrentUser().getUid()).set(userSessMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if(task.isSuccessful()){
+
+                                        Log.v("TAG", "Sesion creada/modificada");
+
+                                    } else {
+
+                                        String error = task.getException().getMessage();
+                                        Toast.makeText(Arrendador.this, "Firestore Error : " + error, Toast.LENGTH_LONG).show();
+
+                                    }
+
+                                }
+                            });
 
                             Intent intencion = new Intent(getApplication(), PrincipalArrendador.class);
                             startActivity(intencion);
@@ -131,42 +158,6 @@ public class Arrendador extends AppCompatActivity implements View.OnClickListene
                 });
 
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        /*
-        FirebaseUser usuario_actual = firebaseAuth.getCurrentUser();
-
-        Log.d("MyActivity", "Usuario actual : " + usuario_actual);
-
-        if(usuario_actual != null){
-
-            id_usuarioActual = firebaseAuth.getCurrentUser().getUid();
-
-            firebaseFirestore.collection("Usuarios").document(id_usuarioActual).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                    if (task.isSuccessful()){
-
-                        if (task.getResult().getString("tipo_usuario").equals("ARR")){
-                            Intent i = new Intent(Arrendador.this, PrincipalArrendador.class);
-                            startActivity(i);
-                            finish();
-                        }
-
-                    }else{
-
-                        String error = task.getException().getMessage();
-                        Toast.makeText(Arrendador.this,"Error : " + error,Toast.LENGTH_LONG).show();
-
-                    }
-                }
-            });
-        }*/
     }
 
     @Override

@@ -58,7 +58,7 @@ public class Principal extends AppCompatActivity {
         super.onStart();
 
         FirebaseUser usuario_actual = mAuth.getCurrentUser();
-        String id_usuarioActual;
+        final String id_usuarioActual;
         Log.d("MyActivity", "Usuario actual : " + usuario_actual);
 
         if(usuario_actual != null){
@@ -73,18 +73,30 @@ public class Principal extends AppCompatActivity {
 
                     if (task.isSuccessful()){
 
-                        if (task.getResult().getString("tipo_usuario").equals("AL")){
+                        firebaseFirestore.collection("Sesiones").document(id_usuarioActual).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                            Intent i = new Intent(Principal.this, PrincipalAlquilador.class);
-                            startActivity(i);
-                            finish();
+                                if(task.getResult().getBoolean("estado")){
 
-                        }else{
+                                    if (task.getResult().getString("tipo_usuario").equals("AL")){
 
-                            Intent i = new Intent(Principal.this, PrincipalArrendador.class);
-                            startActivity(i);
-                            finish();
-                        }
+                                        Intent i = new Intent(Principal.this, PrincipalAlquilador.class);
+                                        startActivity(i);
+                                        finish();
+
+                                    }else{
+
+                                        Intent i = new Intent(Principal.this, PrincipalArrendador.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                }
+
+                            }
+                        });
+
+
 
                     }else{
 
