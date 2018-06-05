@@ -23,10 +23,10 @@
 
 
     <string name="pautar_pension">¿Qué caracteristicas tendrá tu pensión?</string>
-    <string name="nombre_pension">Confortable pension...</string>
+    <string name="ej_nombre_pension">Ej: Confortable pension...</string>
     <string name="label_nombre_pension">Asignale un nombre a tu pensión</string>
     <string name="lbl_descripcion_pension">Describe un poco tu pension</string>
-    <string name="descripcion_pension">Terraza fresca...</string>
+    <string name="ej_descripcion_pension">Ej: Terraza fresca...</string>
     <string name="lbl_numero_huesped_pension">Número de huespedes</string>
     <string name="title_activity_principal__alquilador">Principal_Alquilador</string>
     <string name="pensiones">Pensiones</string>

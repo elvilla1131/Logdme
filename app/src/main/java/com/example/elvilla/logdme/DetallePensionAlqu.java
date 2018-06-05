@@ -134,9 +134,10 @@ public class DetallePensionAlqu extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
         Intent i = new Intent(DetallePensionAlqu.this, PrincipalAlquilador.class);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 
 

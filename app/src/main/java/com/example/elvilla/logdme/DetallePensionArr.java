@@ -31,7 +31,7 @@ public class DetallePensionArr extends AppCompatActivity {
 
     private ImageView imgPension, imgDueño;
     private TextView tvTitulo, tvDueño, tvFecha, tvBarrio, tvHuespedes, tvServLadadora, tvDescripcion, tvRestricciones, tvPrecio;
-    String url_imagen_pension, thumbnail, imagen_dueño, titulo, dueño, fecha, barrio, no_huespedes, serv_lavadora, descripcion, restricciones, precio;
+    String url_imagen_pension, thumbnail, imagen_dueño, titulo, dueño, fecha, barrio, no_huespedes, serv_lavadora, descripcion, restricciones, precio, telefono;
     private Button btnContactar;
 
     private Intent i;
@@ -79,6 +79,7 @@ public class DetallePensionArr extends AppCompatActivity {
 
                     dueño = task.getResult().getString("nombre");
                     imagen_dueño = task.getResult().getString("imagen");
+                    telefono = task.getResult().getString("telefono");
 
                     setUserData(dueño, imagen_dueño);
 
@@ -122,7 +123,7 @@ public class DetallePensionArr extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:0377778888"));
+                callIntent.setData(Uri.parse("tel:" + telefono));
 
 
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -188,6 +189,12 @@ public class DetallePensionArr extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(DetallePensionArr.this, PrincipalArrendador.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
+    }
 
 }

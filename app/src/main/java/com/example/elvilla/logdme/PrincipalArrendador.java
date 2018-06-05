@@ -146,7 +146,7 @@ public class PrincipalArrendador extends AppCompatActivity implements AdaptadorP
         builder.setPositiveButton(positivo, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                
+
                 id_usuario_actual = mAuth.getCurrentUser().getUid();
 
                 firebaseFirestore.collection("Sesiones").document(id_usuario_actual).update("estado", false).addOnSuccessListener(new OnSuccessListener<Void>() {

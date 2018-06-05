@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PrincipalAlquilador">
+    tools:context=".PrincipalAlquilador"
+    android:background="@android:color/white">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/principalAlquiladorToolbar"
@@ -12,9 +13,20 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="@color/TextDarkBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title"
+            android:fontFamily="@font/nunito_semibold"/>
+
+    </android.support.v7.widget.Toolbar>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lst_mis_pensiones"

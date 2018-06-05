@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="@color/TextDarkBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -27,33 +28,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pautarPensionToolbar" />
 
-    <TextView
-        android:id="@+id/tvTitulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="@string/pautar_pension"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prgrsGuardarPension" />
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btnGuardarDatosPension"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitulo">
+        app:layout_constraintTop_toBottomOf="@+id/prgrsGuardarPension">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/open_sans"
-                    android:hint="@string/nombre_pension"
+                    android:hint="@string/ej_nombre_pension"
                     android:inputType="text"
                     android:textSize="18sp" />
 
@@ -139,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:fontFamily="@font/open_sans"
-                    android:hint="@string/descripcion_pension"
+                    android:hint="@string/ej_descripcion_pension"
                     android:inputType="textMultiLine" />
 
             </LinearLayout>
@@ -150,7 +135,7 @@
                 android:layout_marginBottom="16dp">
 
                 <LinearLayout
-                    android:layout_width="120dp"
+                    android:layout_width="160dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
@@ -173,7 +158,7 @@
                         android:id="@+id/txtNumeroCuartosPension"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="32dp"
+                        android:layout_marginRight="104dp"
                         android:layout_weight="1"
                         android:ems="10"
                         android:fontFamily="@font/open_sans"
@@ -181,12 +166,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="174dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="144dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -318,7 +305,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:background="@drawable/button_background_primary"
+        android:background="@drawable/button_background_light_blue"
         android:fontFamily="@font/nunito_semibold"
         android:text="@string/guardar_datos"
         android:textAllCaps="false"
