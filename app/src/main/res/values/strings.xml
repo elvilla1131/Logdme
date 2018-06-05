@@ -90,5 +90,7 @@
     <string name="huespedes">Huespedes</string>
     <string name="eliminacion_exitosa">Pension elimninada</string>
     <string name="eliminacion_fallida">Ups! ha ocurrido un error no se ha podido eliminar la pensión</string>
+    <string name="nombre_pension">pension</string>
+    <string name="descripcion_pension">terraza</string>
 
 </resources>
