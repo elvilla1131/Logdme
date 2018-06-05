@@ -84,7 +84,7 @@ public class PrincipalAlquilador extends AppCompatActivity implements AdaptadorP
 
                     for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
-                        if (doc.getType() == DocumentChange.Type.ADDED) {
+                        if (doc.getType() == DocumentChange.Type.ADDED  || doc.getType() == DocumentChange.Type.MODIFIED || doc.getType() == DocumentChange.Type.REMOVED) {
 
                             Pension p = doc.getDocument().toObject(Pension.class);
 

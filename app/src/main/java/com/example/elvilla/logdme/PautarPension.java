@@ -60,6 +60,8 @@ public class PautarPension extends AppCompatActivity {
 
     private ImageView imagenPension;
     private Uri imagenPensionUri = null;
+    private boolean isChanged = false;
+
     private EditText mTitulo, mDescripcion, mNumHuespedes, mPrecio, mBarrio, mRestriciones;
     private TextView mImagenPension;
     private Spinner cmbLavadora;
@@ -118,16 +120,59 @@ public class PautarPension extends AppCompatActivity {
 
         mImagenPension = findViewById(R.id.tvImagenPrincPension);
 
+        i = getIntent();
+        bundle = i.getBundleExtra("datos");
+
+        Log.v("TAG", "Bundle : " + bundle);
+
+        if(bundle != null){
+            enModificacion = true;
+
+            // Obteniendo los datos de la pension pasados por DetallePensionAlqu (A través del bundle)
+
+            id_pension = bundle.getString("id_pension");
+            url_imagen_pension = bundle.getString("url_imagen");
+            thumbnail = bundle.getString("thumbnail");
+            titulo = bundle.getString("titulo");
+            fecha = bundle.getString("timestamp");
+            barrio = bundle.getString("barrio");
+            no_huespedes = bundle.getString("no_huespedes");
+            serv_lavadora = bundle.getString("serv_lavadora");
+            descripcion = bundle.getString("descripcion");
+            restricciones = bundle.getString("restricciones");
+            precio = bundle.getString("precio");
+
+
+            RequestOptions placeholderOption = new RequestOptions();
+            placeholderOption.placeholder(R.drawable.default_principal_image);
+
+            //modifica la imagen de la pension
+            Glide.with(this).applyDefaultRequestOptions(placeholderOption).load(url_imagen_pension).into(imagenPension);
+
+
+
+            mTitulo.setText(titulo);
+            mDescripcion.setText(descripcion);
+            mNumHuespedes.setText(no_huespedes);
+            mPrecio.setText(precio);
+            mBarrio.setText(barrio);
+            mRestriciones.setText(restricciones);
+            cmbLavadora.setSelection((serv_lavadora.equals("Si"))?1:2);
+
+            imagenPensionUri = Uri.parse(url_imagen_pension);
+        }
+
 
         mGuardarDatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String nombrePension,descripcion,barrio,restricciones, numHuespedes, precio;
-                final int servLavadora;
 
                 if(validar()){
 
                     pautarPensionProgressBar.setVisibility(View.VISIBLE);
+
+                    final String nombrePension,descripcion,barrio,restricciones, numHuespedes, precio, lavadoraOpc;
+                    final int servLavadora;
 
                     nombrePension = mTitulo.getText().toString();
                     descripcion= mDescripcion.getText().toString();
@@ -136,66 +181,85 @@ public class PautarPension extends AppCompatActivity {
                     numHuespedes = mNumHuespedes.getText().toString();
                     servLavadora = cmbLavadora.getSelectedItemPosition();
                     precio = mPrecio.getText().toString();
+                    lavadoraOpc  =  lavadoraOpcs[servLavadora];
 
-                    final String randomName = UUID.randomUUID().toString(),
-                                 randomId = UUID.randomUUID().toString();
+                    if(enModificacion){
 
-                    StorageReference filePath = storageReference.child("imagenes_pension").child(randomName + ".jpg");
 
-                    filePath.putFile(imagenPensionUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if(isChanged){
 
-                           final String downloadUri = task.getResult().getDownloadUrl().toString();
+                            Log.v("TAG", "Tipo guardado : Con Imagen cambiada");
 
-                            if (task.isSuccessful()){
 
-                                File nuevaImagenFile = new File(imagenPensionUri.getPath());
-                                try {
+                            storeModifiedData(true ,imagenPensionUri,nombrePension,descripcion,barrio,restricciones,numHuespedes,lavadoraOpc,precio,thumbnail);
 
-                                    compressedImageFile = new Compressor(PautarPension.this)
-                                            .setMaxHeight(200)
-                                            .setMaxWidth(200)
-                                            .setQuality(10)
-                                            .compressToBitmap(nuevaImagenFile);
 
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                        }else{
 
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                                byte[] thumbData = baos.toByteArray();
+                            Log.v("TAG", "Tipo guardado : Sin Imagen cambiada");
 
-                                UploadTask uploadTask = storageReference .child("imagenes_pension/thumbs").child(randomName + ".jpg").putBytes(thumbData);
+                            storeModifiedData(false ,imagenPensionUri,nombrePension,descripcion,barrio,restricciones,numHuespedes,lavadoraOpc,precio,thumbnail);
 
-                                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        }
 
-                                        String downloadthumbUri = taskSnapshot.getDownloadUrl().toString();
+                    }else{
 
-                                        Map<String, Object> postMap = new HashMap<>();
-                                        postMap.put("id_pension", randomId);
-                                        postMap.put("id_usuario", id_usuario_actual);
-                                        postMap.put("url_imagen", downloadUri);
-                                        postMap.put("titulo", nombrePension);
-                                        postMap.put("descripcion", descripcion);
-                                        postMap.put("barrio", barrio);
-                                        postMap.put("restricciones", restricciones);
-                                        postMap.put("no_huespedes", numHuespedes);
-                                        postMap.put("serv_lavadora", lavadoraOpcs[servLavadora]);
-                                        postMap.put("precio", precio);
-                                        postMap.put("timestamp", FieldValue.serverTimestamp());
-                                        postMap.put("thumbnail", downloadthumbUri);
+                        final String randomName = UUID.randomUUID().toString(),
+                                randomId = UUID.randomUUID().toString();
 
-                                        /*
-                                        firebaseFirestore.collection("Pensiones").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        StorageReference filePath = storageReference.child("imagenes_pension").child(randomName + ".jpg");
 
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                        filePath.putFile(imagenPensionUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
-                                                if (task.isSuccessful()){
+                                final String downloadUri = task.getResult().getDownloadUrl().toString();
+
+                                if (task.isSuccessful()){
+
+                                    File nuevaImagenFile = new File(imagenPensionUri.getPath());
+                                    try {
+
+                                        compressedImageFile = new Compressor(PautarPension.this)
+                                                .setMaxHeight(200)
+                                                .setMaxWidth(200)
+                                                .setQuality(10)
+                                                .compressToBitmap(nuevaImagenFile);
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                    byte[] thumbData = baos.toByteArray();
+
+                                    UploadTask uploadTask = storageReference .child("imagenes_pension/thumbs").child(randomName + ".jpg").putBytes(thumbData);
+
+                                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                            String downloadthumbUri = taskSnapshot.getDownloadUrl().toString();
+
+                                            Map<String, Object> postMap = new HashMap<>();
+                                            postMap.put("id_pension", randomId);
+                                            postMap.put("id_usuario", id_usuario_actual);
+                                            postMap.put("url_imagen", downloadUri);
+                                            postMap.put("titulo", nombrePension);
+                                            postMap.put("descripcion", descripcion);
+                                            postMap.put("barrio", barrio);
+                                            postMap.put("restricciones", restricciones);
+                                            postMap.put("no_huespedes", numHuespedes);
+                                            postMap.put("serv_lavadora", lavadoraOpc);
+                                            postMap.put("precio", precio);
+                                            postMap.put("timestamp", FieldValue.serverTimestamp());
+                                            postMap.put("thumbnail", downloadthumbUri);
+
+
+                                            firebaseFirestore.collection("Pensiones").document(randomId).set(postMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
 
                                                     Toast.makeText(PautarPension.this,getResources().getString(R.string.guardar_pension_correcto),Toast.LENGTH_LONG).show();
 
@@ -203,58 +267,39 @@ public class PautarPension extends AppCompatActivity {
                                                     startActivity(intentPrincipal);
                                                     finish();
 
-                                                }else{
-
-                                                    String error = task.getException().getMessage();
-                                                    Toast.makeText(PautarPension.this,"Firestore Error : " + error,Toast.LENGTH_LONG).show();
                                                 }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
 
-                                                pautarPensionProgressBar.setVisibility(View.INVISIBLE);
+                                                    String error = e.getMessage();
+                                                    Toast.makeText(PautarPension.this,"Firestore Error : " + error,Toast.LENGTH_LONG).show();
 
-                                            }
-                                        });*/
+                                                }
+                                            });
 
-                                        firebaseFirestore.collection("Pensiones").document(randomId).set(postMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-
-                                                Toast.makeText(PautarPension.this,getResources().getString(R.string.guardar_pension_correcto),Toast.LENGTH_LONG).show();
-
-                                                Intent intentPrincipal = new Intent(PautarPension.this, PrincipalAlquilador.class);
-                                                startActivity(intentPrincipal);
-                                                finish();
-
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-
-                                                String error = e.getMessage();
-                                                Toast.makeText(PautarPension.this,"Firestore Error : " + error,Toast.LENGTH_LONG).show();
-
-                                            }
-                                        });
-
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Error handling
-                                    }
-                                });
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Error handling
+                                        }
+                                    });
 
 
 
 
-                            }else{
-                                String error = task.getException().getMessage();
-                                Toast.makeText(PautarPension.this,"Storage Error : " + error,Toast.LENGTH_LONG).show();
+                                }else{
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(PautarPension.this,"Storage Error : " + error,Toast.LENGTH_LONG).show();
 
-                                pautarPensionProgressBar.setVisibility(View.INVISIBLE);
+                                    pautarPensionProgressBar.setVisibility(View.INVISIBLE);
+                                }
+
                             }
+                        });
+                    }
 
-                        }
-                    });
                 }
             }
         });
@@ -286,51 +331,6 @@ public class PautarPension extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        i = getIntent();
-        bundle = i.getBundleExtra("datos");
-
-        Log.v("TAG", "Bundle : " + bundle);
-
-        if(bundle != null){
-            enModificacion = true;
-            // Obteniendo los datos de la pension pasados por DetallePEnsionAlqu (A través del bundle)
-
-            id_pension = bundle.getString("id_pension");
-            url_imagen_pension = bundle.getString("url_imagen");
-            thumbnail = bundle.getString("thumbnail");
-            titulo = bundle.getString("titulo");
-            fecha = bundle.getString("timestamp");
-            barrio = bundle.getString("barrio");
-            no_huespedes = bundle.getString("no_huespedes");
-            serv_lavadora = bundle.getString("serv_lavadora");
-            descripcion = bundle.getString("descripcion");
-            restricciones = bundle.getString("restricciones");
-            precio = bundle.getString("precio");
-
-
-            RequestOptions placeholderOption = new RequestOptions();
-            placeholderOption.placeholder(R.drawable.default_principal_image);
-
-            //modifica la imagen de la pension
-            Glide.with(this).applyDefaultRequestOptions(placeholderOption).load(url_imagen_pension).into(imagenPension);
-
-
-
-            mTitulo.setText(titulo);
-            mDescripcion.setText(descripcion);
-            mNumHuespedes.setText(no_huespedes);
-            mPrecio.setText(precio);
-            mBarrio.setText(barrio);
-            mRestriciones.setText(restricciones);
-            cmbLavadora.setSelection((serv_lavadora.equals("Si"))?1:2);
-        }
-
-
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -344,6 +344,8 @@ public class PautarPension extends AppCompatActivity {
                 imagenPensionUri = result.getUri();
                 imagenPension.setImageURI(imagenPensionUri);
 
+                isChanged = true;
+
                 Toast.makeText(PautarPension.this,getResources().getString(R.string.guardar_imagen_correcto),Toast.LENGTH_LONG).show();
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -351,6 +353,145 @@ public class PautarPension extends AppCompatActivity {
                 Exception error = result.getError();
             }
         }
+    }
+
+    public void storeModifiedData(Boolean imgChanged, final Uri imagenPensionUri, final String titulo, final String descripcion, final String barrio, final String restricciones, final String no_huespedes, final String lavadoraOpc, final String precio, final String thumbnail){
+
+        final Map<String, Object> postMap = new HashMap<>();
+        final String randomName = UUID.randomUUID().toString();
+
+        if (imgChanged){
+
+            StorageReference filePath = storageReference.child("imagenes_pension").child(randomName + ".jpg");
+            filePath.putFile(imagenPensionUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                    final String downloadUri = task.getResult().getDownloadUrl().toString();
+
+                    if (task.isSuccessful()) {
+
+                        File nuevaImagenFile = new File(imagenPensionUri.getPath());
+                        try {
+
+                            compressedImageFile = new Compressor(PautarPension.this)
+                                    .setMaxHeight(200)
+                                    .setMaxWidth(200)
+                                    .setQuality(10)
+                                    .compressToBitmap(nuevaImagenFile);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] thumbData = baos.toByteArray();
+
+                        UploadTask uploadTask = storageReference.child("imagenes_pension/thumbs").child(randomName + ".jpg").putBytes(thumbData);
+
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                Log.v("TAG", "OnSucces: Todo bien");
+
+                                String downloadthumbUri = taskSnapshot.getDownloadUrl().toString();
+
+                                postMap.put("url_imagen", downloadUri);
+                                postMap.put("titulo", titulo);
+                                postMap.put("descripcion", descripcion);
+                                postMap.put("barrio", barrio);
+                                postMap.put("restricciones", restricciones);
+                                postMap.put("no_huespedes", no_huespedes);
+                                postMap.put("serv_lavadora", lavadoraOpc);
+                                postMap.put("precio", precio);
+                                postMap.put("timestamp", FieldValue.serverTimestamp());
+                                postMap.put("thumbnail", downloadthumbUri);
+
+                                firebaseFirestore.collection("Pensiones").document(id_pension).update(postMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                        Toast.makeText(PautarPension.this,getResources().getString(R.string.guardar_pension_correcto),Toast.LENGTH_LONG).show();
+
+                                        Intent intentPrincipal = new Intent(PautarPension.this, PrincipalAlquilador.class);
+                                        startActivity(intentPrincipal);
+                                        finish();
+
+                                    }
+
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                        String error = e.getMessage();
+                                        Toast.makeText(PautarPension.this,"Firestore Error : " + error,Toast.LENGTH_LONG).show();
+
+                                    }
+                                });
+                            }
+
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                String error = e.getMessage();
+                                Toast.makeText(PautarPension.this,"Upload Task Error : " + error,Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+
+                    }else{
+                        String error = task.getException().getMessage();
+                        Toast.makeText(PautarPension.this,"Storage Error : " + error,Toast.LENGTH_LONG).show();
+
+                        pautarPensionProgressBar.setVisibility(View.INVISIBLE);
+                    }
+
+                }
+            });
+
+        }else{
+
+            postMap.put("titulo", titulo);
+            postMap.put("descripcion", descripcion);
+            postMap.put("barrio", barrio);
+            postMap.put("restricciones", restricciones);
+            postMap.put("no_huespedes", no_huespedes);
+            postMap.put("serv_lavadora", lavadoraOpc);
+            postMap.put("precio", precio);
+            postMap.put("timestamp", FieldValue.serverTimestamp());
+
+            firebaseFirestore.collection("Pensiones").document(id_pension).update(postMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                    Toast.makeText(PautarPension.this,getResources().getString(R.string.guardar_pension_correcto),Toast.LENGTH_LONG).show();
+
+                    Intent intentPrincipal = new Intent(PautarPension.this, PrincipalAlquilador.class);
+                    startActivity(intentPrincipal);
+                    finish();
+
+                }
+
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    String error = e.getMessage();
+                    Toast.makeText(PautarPension.this,"Firestore Error : " + error,Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+        }
+
+
+
+
+
     }
 
     public Boolean validar(){
@@ -373,7 +514,7 @@ public class PautarPension extends AppCompatActivity {
             return false;
         }
 
-        if(imagenPensionUri == null && !enModificacion){
+        if(imagenPensionUri == null){
             imagenPension.requestFocus();
             mImagenPension.setError(getResources().getString(R.string.error_imagen_vacia));
 

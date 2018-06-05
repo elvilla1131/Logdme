@@ -44,7 +44,7 @@
     <string name="restriccion_pension">Restricciones</string>
     <string name="guardar_datos">Guardar Datos</string>
     <string name="guardar_pension_correcto">Pension guardada</string>
-    <string name="guardar_imagen_correcto">Imagen guardada</string>
+    <string name="guardar_imagen_correcto">Imagen cambiada</string>
 
 
     <string name="error_campo_vacio">Debe llenar este campo</string>
