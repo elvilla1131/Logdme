@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetallePensionAlqu">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="24dp">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgPensionDetalle"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/default_principal_image" />
+
+            <TextView
+                android:id="@+id/tvTituloPensionDetalle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="72dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/raleway"
+                android:text="Titulo Pension"
+                android:textAllCaps="false"
+                android:textColor="#212121"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgPensionDetalle" />
+
+
+            <TextView
+                android:id="@+id/tvBarrioPensionDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/nunito_light"
+                android:text="Ubicacion"
+                app:layout_constraintStart_toEndOf="@+id/icUbicacion"
+                app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionDetalle" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:background="#EDEDED"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDescripcionPensionDetalle" />
+
+            <ImageView
+                android:id="@+id/icUbicacion"
+                android:layout_width="28dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTituloPensionDetalle"
+                app:srcCompat="@mipmap/ic_location" />
+
+
+            <ImageView
+                android:id="@+id/icHuespedPensionDetalle"
+                android:layout_width="27dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icUbicacion"
+                app:srcCompat="@mipmap/ic_lodge" />
+
+            <TextView
+                android:id="@+id/tvHuespedPensionDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/nunito_light"
+                android:text="2"
+                app:layout_constraintStart_toEndOf="@+id/icHuespedPensionDetalle"
+                app:layout_constraintTop_toBottomOf="@+id/tvBarrioPensionDetalle" />
+
+            <TextView
+                android:id="@+id/tvHuespesdes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/nunito_light"
+                android:text="@string/huespedes"
+                app:layout_constraintStart_toEndOf="@+id/tvHuespedPensionDetalle"
+                app:layout_constraintTop_toBottomOf="@+id/tvBarrioPensionDetalle" />
+
+            <ImageView
+                android:id="@+id/icLavadoraDetalle"
+                android:layout_width="27dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tvHuespesdes"
+                app:layout_constraintTop_toBottomOf="@+id/tvBarrioPensionDetalle"
+                app:srcCompat="@mipmap/ic_laundry" />
+
+            <TextView
+                android:id="@+id/tvLavadoraPensionDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/nunito_light"
+                android:text="Si"
+                app:layout_constraintStart_toEndOf="@+id/icLavadoraDetalle"
+                app:layout_constraintTop_toBottomOf="@+id/tvBarrioPensionDetalle" />
+
+            <TextView
+                android:id="@+id/tvDescripcionPensionDetalle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/nunito_light"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis velit id quam sagittis, eget suscipit massa lacinia. Maecenas pellentesque urna nulla,"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icHuespedPensionDetalle" />
+
+            <TextView
+                android:id="@+id/tvRestricciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/raleway"
+                android:text="@string/restriccion_pension"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <TextView
+                android:id="@+id/tvRestriccionesPensionDetalle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_light"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis velit id quam sagittis"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRestricciones" />
+
+            <TextView
+                android:id="@+id/tvMoneda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/raleway"
+                android:text="$"
+                android:textColor="#212121"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRestriccionesPensionDetalle" />
+
+
+            <TextView
+                android:id="@+id/tvPrecioPensionDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/raleway"
+                android:text="200.000"
+                android:textColor="#212121"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvMoneda"
+                app:layout_constraintTop_toBottomOf="@+id/tvRestriccionesPensionDetalle" />
+
+            <TextView
+                android:id="@+id/tvTipoPago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="Mensual"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvPrecioPensionDetalle"
+                app:layout_constraintTop_toBottomOf="@+id/tvRestriccionesPensionDetalle"
+                app:layout_constraintVertical_bias="1.0" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fabMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+
+
+        fab:menu_animationDelayPerItem="50"
+        fab:menu_buttonSpacing="0dp"
+        fab:menu_colorNormal="@color/colorAccent"
+        fab:menu_colorPressed="@color/colorAccent"
+        fab:menu_colorRipple="#99FFFFFF"
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@mipmap/ic_cog"
+        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+        fab:menu_labels_margin="0dp"
+        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+        fab:menu_shadowColor="@color/cardview_shadow_end_color"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowYOffset="3dp"
+        fab:menu_showShadow="true"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="431dp">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_modificar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="modificar"
+            android:src="@android:drawable/ic_menu_edit"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="@color/colorAccent"
+            fab:fab_label="@string/modificar"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_eliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="eliminar"
+            android:src="@android:drawable/ic_input_delete"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="@color/colorAccent"
+            fab:fab_label="@string/eliminar"
+            fab:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</android.support.design.widget.CoordinatorLayout>
